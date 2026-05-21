@@ -1,178 +1,187 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <style>
-        body {
-            background-color: #F3F5E4;
-            margin: 0;
-            padding: 0;
-        }
+    <head>
+        <meta charset="UTF-8" />
+        <style>
+            body {
+                background-color: #f3f5e4;
+                margin: 0;
+                padding: 0;
+            }
 
-        /* 導覽列 */
-        .main_menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #637864;
-            z-index: 9999;
-            font-family: "Noto Serif TC", "PMingLiU", serif;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
+            /* 導覽列 */
+            .main_menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                background-color: #637864;
+                z-index: 9999;
+                font-family: "Noto Serif TC", "PMingLiU", serif;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
 
-        .menu_list {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 0;
-            margin: 0;
-            height: 60px;
-            list-style-type: none;
-        }
+            .menu_list {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                padding: 0;
+                margin: 0;
+                height: 60px;
+                list-style-type: none;
+            }
 
-        .menu_part {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            padding: 0 3%;
-            font-size: 18px;
-            font-weight: bold;
-            color: #B4D9B9;
-            transition: background 0.3s, color 0.3s;
-            cursor: pointer;
-        }
+            .menu_part {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                padding: 0 3%;
+                font-size: 18px;
+                font-weight: bold;
+                color: #b4d9b9;
+                transition:
+                    background 0.3s,
+                    color 0.3s;
+                cursor: pointer;
+            }
 
-        .menu_part:hover {
-            background-color: #2D5E2F;
-            color: #F3F5E4;
-        }
+            .menu_part:hover {
+                background-color: #2d5e2f;
+                color: #f3f5e4;
+            }
 
-        /* 主容器 */
-        .main_container {
-            padding-top: 100px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+            /* 主容器 */
+            .main_container {
+                padding-top: 100px;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
 
-        .title_main {
-            margin: 40px 20px;
-            padding: 10px;
-            font-size: 48px;
-            font-weight: 800;
-            font-family: "Noto Serif TC", "PMingLiU", serif;
-            letter-spacing: 3px;
-            color: #637864;
-            transition: all 0.3s ease;
-        }
+            .title_main {
+                margin: 40px 20px;
+                padding: 10px;
+                font-size: 48px;
+                font-weight: 800;
+                font-family: "Noto Serif TC", "PMingLiU", serif;
+                letter-spacing: 3px;
+                color: #637864;
+                transition: all 0.3s ease;
+            }
 
-        .title_main:hover {
-            background: linear-gradient(to right, #2D5E2F 150px, #65AB68 300px, #F3F5E4 100%);
-            color: #F3F5E4;
-        }
+            .title_main:hover {
+                background: linear-gradient(
+                    to right,
+                    #2d5e2f 150px,
+                    #65ab68 300px,
+                    #f3f5e4 100%
+                );
+                color: #f3f5e4;
+            }
 
-        /* 列表結構 */
-        .mountain_list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0 20px;
-        }
+            /* 列表結構 */
+            .mountain_list {
+                list-style-type: none;
+                padding: 0;
+                margin: 0 20px;
+            }
 
-        .mountain_item {
-            width: 100%;
-            margin-bottom: 80px;
-        }
+            .mountain_item {
+                width: 100%;
+                margin-bottom: 80px;
+            }
 
-        .mountain_label {
-        
-            font-size: 36px;
-            font-weight: 600;
-            color: #2D5E2F;
-            margin-bottom: 20px;
-            display: block;
-        }
+            .mountain_label {
+                font-size: 36px;
+                font-weight: 600;
+                color: #2d5e2f;
+                margin-bottom: 20px;
+                display: block;
+            }
 
-        .content_wrapper {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 40px;
-        }
+            .content_wrapper {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 40px;
+            }
 
-        .mountain_desc {
-            flex: 0 0 60%;
-            line-height: 1.8;
-            letter-spacing: 1px;
-            font-size: 23px;
-            font-family: "Noto Serif TC", "PMingLiU", serif;;
-            color: #333;
-            font-family: "Noto Serif TC", serif;
-            text-align: justify;
-        }
+            .mountain_desc {
+                flex: 0 0 60%;
+                line-height: 1.8;
+                letter-spacing: 1px;
+                font-size: 23px;
+                font-family: "Noto Serif TC", "PMingLiU", serif;
+                color: #333;
+                font-family: "Noto Serif TC", serif;
+                text-align: justify;
+            }
 
-        .mountain_img_container {
-            flex: 0 0 35%;
-        }
+            .mountain_img_container {
+                flex: 0 0 35%;
+            }
 
-        .mountain_img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 4px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-        }
+            .mountain_img {
+                width: 100%;
+                height: auto;
+                display: block;
+                border-radius: 4px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            }
+        </style>
+        <title>小百岳指南 - 北部區域</title>
+    </head>
+    <body>
+        <nav class="main_menu">
+            <ul class="menu_list">
+                <li class="menu_part">首頁</li>
+                <li class="menu_part">我的空間</li>
+                <li class="menu_part">北部區域</li>
+                <li class="menu_part">中部區域</li>
+                <li class="menu_part">南部區域</li>
+                <li class="menu_part">東部區域</li>
+                <li class="menu_part">離島區域</li>
+            </ul>
+        </nav>
 
-        
-       
-    </style>
-    <title>小百岳指南 - 北部區域</title>
-</head>
-<body>
+        <main class="main_container">
+            <div class="title_main">北部區域</div>
 
-<nav class="main_menu">
-    <ul class="menu_list">
-        <li class="menu_part">首頁</li>
-        <li class="menu_part">我的空間</li>
-        <li class="menu_part">北部區域</li>
-        <li class="menu_part">中部區域</li>
-        <li class="menu_part">南部區域</li>
-        <li class="menu_part">東部區域</li>
-        <li class="menu_part">離島區域</li>
-    </ul>
-</nav>
+            <ul class="mountain_list">
+                <!-- 景點：大武崙山 -->
+                <li class="mountain_item">
+                    <span class="mountain_label">大武崙山</span>
+                    <div class="content_wrapper">
+                        <div class="mountain_desc">
+                            大武崙山位於基隆著名風景區內，西側緊鄰著大武崙砲台、山腰處則有情人湖的水色風光，登高除可望海也能遠眺璞嘴山、基隆山、五份山等山岳景觀，是一處擁有砲台古蹟、湖光山色及海洋美景三重享受的登山旅遊好去處。
+                        </div>
+                        <div class="mountain_img_container">
+                            <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/HsuehMountain2.jpg/960px-HsuehMountain2.jpg"
+                                alt="大武崙山"
+                                class="mountain_img"
+                            />
+                        </div>
+                    </div>
+                </li>
 
-<main class="main_container">
-    <div class="title_main">北部區域</div>
-
-    <ul class="mountain_list">
-        <!-- 景點：大武崙山 -->
-        <li class="mountain_item">
-            <span class="mountain_label">大武崙山</span>
-            <div class="content_wrapper">
-                <div class="mountain_desc">
-                    大武崙山位於基隆著名風景區內，西側緊鄰著大武崙砲台、山腰處則有情人湖的水色風光，登高除可望海也能遠眺璞嘴山、基隆山、五份山等山岳景觀，是一處擁有砲台古蹟、湖光山色及海洋美景三重享受的登山旅遊好去處。
-                </div>
-                <div class="mountain_img_container">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/HsuehMountain2.jpg/960px-HsuehMountain2.jpg" alt="大武崙山" class="mountain_img">
-                </div>
-            </div>
-        </li>
-
-        <!-- 景點：槓子寮山 -->
-        <li class="mountain_item">
-            <span class="mountain_label">槓子寮山</span>
-            <div class="content_wrapper">
-                <div class="mountain_desc">
-                    槓子寮山，位於基隆市中正區、信義區交界處，大約在國立臺灣海洋大學的南側，海拔163公尺，屬於加里山山脈之深澳山地，山頂有二等三角點基石，編號1168，為台灣小百岳之一。槓子寮山峰頂視野不佳，附近有槓子寮砲台古蹟，視野較佳。
-                </div>
-                <div class="mountain_img_container">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Gangzhiliaoshan.JPG/960px-Gangzhiliaoshan.JPG" alt="槓子寮山" class="mountain_img">
-                </div>
-            </div>
-        </li>
-    </ul>
-</main>
-
-</body>
+                <!-- 景點：槓子寮山 -->
+                <li class="mountain_item">
+                    <span class="mountain_label">槓子寮山</span>
+                    <div class="content_wrapper">
+                        <div class="mountain_desc">
+                            槓子寮山，位於基隆市中正區、信義區交界處，大約在國立臺灣海洋大學的南側，海拔163公尺，屬於加里山山脈之深澳山地，山頂有二等三角點基石，編號1168，為台灣小百岳之一。槓子寮山峰頂視野不佳，附近有槓子寮砲台古蹟，視野較佳。
+                        </div>
+                        <div class="mountain_img_container">
+                            <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Gangzhiliaoshan.JPG/960px-Gangzhiliaoshan.JPG"
+                                alt="槓子寮山"
+                                class="mountain_img"
+                            />
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </main>
+    </body>
 </html>

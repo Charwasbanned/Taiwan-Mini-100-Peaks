@@ -1,300 +1,50 @@
 <!DOCTYPE html>
 <html>
-<head>
-<style>
-	body {
-    	background-color: #F3F5E4
-    }
-    
-    .main_menu{
-    
-    	position: fixed;
-        top: 0%;
-        left: 0%;
-        width:100%;
-        background-color: #637864;
-        z-index: 9999;
-        
-    }
-    
-    .menu_list{
-    	position: relative;
-        
-    	display: flex;
-        align-items:center;
-        justify-content:space-around;
-        padding: 0;          
-    	margin: 0;
-        height: 60px;
-        list-style-type: none;
-       
-    }
-    
-    .menu_part{
-    
-    	display: flex;
-        align-items: center;      
-    	justify-content: center;
-    	height: 100%;
-        padding: 0 3%;
-        font-size: 20px;
-        font-weight: bold;
-        color: #B4D9B9;
-        
-    	transition: background 0.3s;
-    	
-    }
-    .menu_part::after {
-    	content: "";
-   	    position: absolute;
-    	right: 0;                /* 靠右對齊 */
-    	top: 25%;                /* 距離頂部 25%，高度佔 50%，就不會碰到邊緣 */
-    	width: 1.5px;            /* 線條粗細 */
-    	height: 50%;             /* 線條高度 */
-    	background-color: rgba(180, 217, 185, 0.4); /* 分隔線顏色，帶一點透明度 */
-	}
-
-/* 最後一個項目不需要分隔線 */
-	.menu_part:last-child::after {
-    	display: none;
-	}
-
-	.menu_part:hover {
-    	background-color: #2D5E2F;
-    	color: #F3F5E4;
-	}
-    .title_top {
-    	
-    	margin:20% 0;
-    	text-align: center;
-        font-size: 80px;
-        font-family: Noto Serif CJK TC;
-        font-weight: 600;
-        letter-spacing: 8px;
-        color: #2D5E2F;
-    	
-    }
-    
-    .search_container {
-    	margin: 5%;
-        padding: 20px;
-        display: flex;
-    	justify-content: center; /* 或 fixed */
- 
-    	
-    }
-    
-    #search{
-    	width: 300px;
-    	padding: 12px 25px;
-    	font-size: 18px;
-    	border: 2px solid #637864; 
-    	border-radius: 50px;       
-    	background-color: white;
-    	color: #2D5E2F;
-    	outline: none;             
-   	    transition: all 0.3s ease;
-   	    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    }
-  
-    
-    .block_ad {
-    	
-       margin-bottom: 200px ;
-    }
-    
-	
-    .title_part {
-    	width: 90%; 
-        margin: 2%;
-    	padding: 10px;
-    	text-align: left;
-    	font-size: 50px;
-        font-weight: 800;
-        letter-spacing: 3px;
-        color: #637864;
-        border-bottom: 5px solid #2D5E2F;
-        transition: all 0.3s ease;
-       
-    }
-    .title_part:hover {
-    	background: linear-gradient(to right, #2D5E2F 200px, #65AB68 300px,  #F3F5E4 450px);
-        color: #F3F5E4;
-        font-weight: 600;
-        
-    }
-    .moutain_menu {
-    	position: relative;
-        max-height: 200px;
-        overflow: hidden;
-        transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start; 
-        align-items: flex-start;
-        padding: 20px;
-        list-style-type: none;
-        gap: 15px;
-        
-        
-    }
-    .moutain_menu::after {
-  		content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 80px;
-        background: linear-gradient(to bottom, transparent, #F3F5E4);
-        transition: opacity 0.3s;
-        pointer-events: none;
-	}
-	.block_ad:hover .moutain_menu {
-        max-height: 1000px; 
-    }
-
-    .block_ad:hover .moutain_menu::after {
-        opacity: 0; 
-    }
-    
-    .moutain {
-    	
-        border-radius: 40px;
-        padding: 10px;
-        margin: 10px;
-        width: 250px;
-        max-height: 60px;
-        text-align: center;
-        font-size: 25px;
-        color: #F3F5E4;
-        background-color: #637864;
-    }
-    .moutain:hover {
-        background-color: #2D5E2F;
-        text-shadow: 1px 1px 1px #F3F5E4;
-        transform: translateY(-5px); 
-    }
-
-</style>
-<title>小百岳</title>
-</head>
-<body>
-
-<div class = 'main_menu'>
-	<ul class = 'menu_list' >	
-		<li class = 'menu_part' >首頁</li>
-    	<li class = 'menu_part'>我的空間</li>
-    	<li class = 'menu_part'>北部區域</li>
-    	<li class = 'menu_part'>中部區域</li>
-    	<li class = 'menu_part'>南部區域</li>
-    	<li class = 'menu_part'>東部區域</li>
-    	<li class = 'menu_part'>離島區域</li>
-    	
-
-	</ul>
-
-</div>
-
-<div class = "title_top" >小百岳指南</div>
-
-<div class = 'search_container'>
-
-	<input type="text" id="search" placeholder="請輸入關鍵字（例如：大武崙山）">
-    <button onclick="checkSearch()">搜尋</button>
-</div>
-
-
-
-<div class = "block_ad" >
-	<div class = "title_part" >&nbsp;&nbsp;北部區域</div>
-
-	<ul class = 'moutain_menu' >	
-		<li class = 'moutain' >大武崙山</li>
-    	<li class = 'moutain'>槓子寮山</li>
-    	<li class = 'moutain'>&nbsp;七星山&nbsp;</li>
-    	<li class = 'moutain'>&nbsp;基隆山&nbsp;</li>
-    	<li class = 'moutain'>&nbsp;觀音山&nbsp;</li>
-    	<li class = 'moutain'>&nbsp;紅淡山&nbsp;</li>
-    	<li class = 'moutain'>大崙頭山</li>
-    	<li class = 'moutain'>&nbsp;劍潭山&nbsp;</li>
-
-	</ul>
-    
-
-</div>
-
-<div class = "block_ad" >
-	<div class = "title_part" >&nbsp;&nbsp;中部區域</div>
-
-	<ul class = 'moutain_menu' >	
-		<li class = 'moutain' >大武崙山</li>
-    	<li class = 'moutain'>槓子寮山</li>
-    	<li class = 'moutain'>&nbsp;七星山&nbsp;</li>
-    	<li class = 'moutain'>&nbsp;基隆山&nbsp;</li>
-    	<li class = 'moutain'>&nbsp;觀音山&nbsp;</li>
-    	<li class = 'moutain'>&nbsp;紅淡山&nbsp;</li>
-    	<li class = 'moutain'>大崙頭山</li>
-    	<li class = 'moutain'>&nbsp;劍潭山&nbsp;</li>
-
-	</ul>
-
-</div>
-
-
-
-<div class = "block_ad" >
-	<div class = "title_part" >&nbsp;&nbsp;南部區域</div>
-
-	<ul class = 'moutain_menu' >	
-		<li class = 'moutain' >大武崙山</li>
-    	<li class = 'moutain'>槓子寮山</li>
-    	<li class = 'moutain'>&nbsp;七星山&nbsp;</li>
-    	<li class = 'moutain'>&nbsp;基隆山&nbsp;</li>
-    	<li class = 'moutain'>&nbsp;觀音山&nbsp;</li>
-    	<li class = 'moutain'>&nbsp;紅淡山&nbsp;</li>
-    	<li class = 'moutain'>大崙頭山</li>
-    	<li class = 'moutain'>&nbsp;劍潭山&nbsp;</li>
-
-	</ul>
-
-</div>
-
-
-
-<div class = "block_ad" >
-	<div class = "title_part" >&nbsp;&nbsp;東部區域</div>
-
-	<ul class = 'moutain_menu' >	
-		<li class = 'moutain' >大武崙山</li>
-    	<li class = 'moutain'>槓子寮山</li>
-    	<li class = 'moutain'>&nbsp;七星山&nbsp;</li>
-    	<li class = 'moutain'>&nbsp;基隆山&nbsp;</li>
-    	<li class = 'moutain'>&nbsp;觀音山&nbsp;</li>
-    	<li class = 'moutain'>&nbsp;紅淡山&nbsp;</li>
-    	<li class = 'moutain'>大崙頭山</li>
-    	<li class = 'moutain'>&nbsp;劍潭山&nbsp;</li>
-
-	</ul>
-
-</div>
-
-<div class = "block_ad" >
-	<div class = "title_part" >&nbsp;&nbsp;離島區域</div>
-
-	<ul class = 'moutain_menu' >	
-		<li class = 'moutain' >大武崙山</li>
-    	<li class = 'moutain'>槓子寮山</li>
-    	<li class = 'moutain'>&nbsp;七星山&nbsp;</li>
-    	<li class = 'moutain'>&nbsp;基隆山&nbsp;</li>
-    	<li class = 'moutain'>&nbsp;觀音山&nbsp;</li>
-    	<li class = 'moutain'>&nbsp;紅淡山&nbsp;</li>
-    	<li class = 'moutain'>大崙頭山</li>
-    	<li class = 'moutain'>&nbsp;劍潭山&nbsp;</li>
-
-	</ul>
-
-</div>
-</body>
+    <head>
+        <link rel="stylesheet" href="main_style.css">
+        <title>小百岳</title>
+    </head>
+    <body>
+        <div class="main_menu">
+            <ul class="menu_list">
+                <li class="menu_part">首頁</li>
+                <li class="menu_part">我的空間</li>
+                <li class="menu_part">北部區域</li>
+                <li class="menu_part">中部區域</li>
+                <li class="menu_part">南部區域</li>
+                <li class="menu_part">東部區域</li>
+                <li class="menu_part">離島區域</li>
+            </ul>
+        </div>
+        <div class="title_top">小百岳指南</div>
+        <div class="search_container">
+            <input
+                type="text"
+                id="search"
+                placeholder="請輸入關鍵字（例如：大武崙山）"
+                />
+            <button onclick="checkSearch()">搜尋</button>
+        </div>
+        <div class="block_ad">
+            <div class="title_part">&nbsp;&nbsp;北部區域</div>
+            <ul class="mountain_menu" data-region="北部區域"></ul>
+        </div>
+        <div class="block_ad">
+            <div class="title_part">&nbsp;&nbsp;中部區域</div>
+            <ul class="mountain_menu" data-region="中部區域"></ul>
+        </div>
+        <div class="block_ad">
+            <div class="title_part">&nbsp;&nbsp;南部區域</div>
+            <ul class="mountain_menu" data-region="南部區域"></ul>
+        </div>
+        <div class="block_ad">
+            <div class="title_part">&nbsp;&nbsp;東部區域</div>
+            <ul class="mountain_menu" data-region="東部區域"></ul>
+        </div>
+        <div class="block_ad">
+            <div class="title_part">&nbsp;&nbsp;離島區域</div>
+            <ul class="mountain_menu" data-region="離島區域"></ul>
+        </div>
+        <script src="mt_menu.js"></script>
+    </body>
 </html>
-
-
