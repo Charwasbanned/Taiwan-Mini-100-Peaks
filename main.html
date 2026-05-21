@@ -7,13 +7,13 @@
     <body>
         <div class="main_menu">
             <ul class="menu_list">
-                <li class="menu_part">首頁</li>
-                <li class="menu_part">我的空間</li>
-                <li class="menu_part">北部區域</li>
-                <li class="menu_part">中部區域</li>
-                <li class="menu_part">南部區域</li>
-                <li class="menu_part">東部區域</li>
-                <li class="menu_part">離島區域</li>
+                <li class = 'menu_part' id="main" >首頁</li>
+    	        <li class = 'menu_part'>我的空間</li>
+    	        <li class = 'menu_part' id="northBtn">北部區域</li>
+    	        <li class = 'menu_part' id="centerBtn">中部區域</li>
+    	        <li class = 'menu_part' id="southBtn">南部區域</li>
+    	        <li class = 'menu_part' id="eastBtn">東部區域</li>
+    	        <li class = 'menu_part' id="islandBtn">離島區域</li>
             </ul>
         </div>
         <div class="title_top">小百岳指南</div>
@@ -25,26 +25,27 @@
                 />
             <button onclick="checkSearch()">搜尋</button>
         </div>
-        <div class="block_ad">
+        <div class = "block_ad" id="northSection">
             <div class="title_part">&nbsp;&nbsp;北部區域</div>
             <ul class="mountain_menu" data-region="北部區域"></ul>
         </div>
-        <div class="block_ad">
+        <div class = "block_ad" id="centerSection">
             <div class="title_part">&nbsp;&nbsp;中部區域</div>
             <ul class="mountain_menu" data-region="中部區域"></ul>
         </div>
-        <div class="block_ad">
+        <div class="block_ad" id="southSection">
             <div class="title_part">&nbsp;&nbsp;南部區域</div>
             <ul class="mountain_menu" data-region="南部區域"></ul>
         </div>
-        <div class="block_ad">
+        <div class="block_ad" id="eastSection">
             <div class="title_part">&nbsp;&nbsp;東部區域</div>
             <ul class="mountain_menu" data-region="東部區域"></ul>
         </div>
-        <div class="block_ad">
+        <div class="block_ad" id="islandSection">
             <div class="title_part">&nbsp;&nbsp;離島區域</div>
             <ul class="mountain_menu" data-region="離島區域"></ul>
         </div>
-        <script src="mt_menu.js"></script>
+        <script src="main.js"></script>
+        <!--我把滑動的js也加進去了-->
     </body>
 </html>
