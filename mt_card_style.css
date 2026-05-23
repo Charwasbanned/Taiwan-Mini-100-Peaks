@@ -189,9 +189,9 @@
 }
 
 #mtImg {
-    width: 100%;          /* 寬度100%填滿外框 */
-    height: 100%;         /* 高度100%填滿外框 (對齊你設定的 400px) */
-    object-fit: cover;    /* 終極絕招：自動裁切填滿，圖片絕對不扁塌變形！ */
-    object-position: center; /* 圖片對齊中心點 */
-    border-radius: 11px;  /* 稍微修圓角，配合你的外框 */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 11px;
 }
