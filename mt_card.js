@@ -112,7 +112,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const mainBtn = document.getElementById("main");
     if (mainBtn) {
         mainBtn.addEventListener("click", () => {
-            window.location.href = "index.html";
+            let currentPath = window.location.pathname;
+            let basePath = currentPath.substring( 0, currentPath.lastIndexOf("/"),);
+            window.location.href =
+                window.location.origin + basePath + "/index.html";
         });
     }
 });
