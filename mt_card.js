@@ -106,3 +106,13 @@ function updateButtonVisual(mountainId) {
         statusBtn.className = "status-badge uncompleted";
     }
 }
+
+// 讓內頁導覽列的首頁按鈕，在點擊時能正常跳回首頁
+document.addEventListener("DOMContentLoaded", function () {
+    const mainBtn = document.getElementById("main");
+    if (mainBtn) {
+        mainBtn.addEventListener("click", () => {
+            window.location.href = "index.html";
+        });
+    }
+});
