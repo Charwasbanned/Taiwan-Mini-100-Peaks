@@ -16,16 +16,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
                 if (targetMenu) {
-                    // 建立一個新的 <li> 標籤
                     const li = document.createElement("li");
                     li.className = "mountain";
-                    li.textContent = mountain.Mt_name;
 
-                    // 把 <li> 塞進 <ul> 裡面
+                    //山脈按鈕超連結
+                    const link = document.createElement("a");
+                    link.href = `mt_card.html?id=${mountain.Mt_id}`;
+                    link.textContent = mountain.Mt_name;
+                    link.style.textDecoration = "none";
+                    link.style.color = "inherit";
+
+                    li.appendChild(link);
                     targetMenu.appendChild(li);
                 }
             });
         })
+
         .catch((error) => {
             console.error("Error:", error);
             alert("載入山脈資料失敗");
@@ -51,34 +57,34 @@ const islandSection = document.getElementById("islandSection");
 // 北部區域
 northBtn.addEventListener("click", () => {
     northSection.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
     });
 });
 
 // 中部區域
 centerBtn.addEventListener("click", () => {
     centerSection.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
     });
 });
 
 // 南部區域
 southBtn.addEventListener("click", () => {
     southSection.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
     });
 });
 
 // 東部區域
 eastBtn.addEventListener("click", () => {
     eastSection.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
     });
 });
 
 // 離島區域
 islandBtn.addEventListener("click", () => {
     islandSection.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
     });
 });
