@@ -1,0 +1,212 @@
+.container {
+    max-width: 1100px; 
+    margin: 90px auto 40px auto;
+    padding: 20px 40px;
+    box-sizing: border-box;
+}
+
+
+.nav-link {
+    color: #b4d9b9 !important;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+.nav-link:hover {
+    color: #ffffff !important;
+}
+
+
+.back-btn {
+    display: inline-block;
+    margin-bottom: 25px;
+    color: #637864;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.2s ease;
+}
+.back-btn:hover {
+    color: #2d5e2f;
+    text-decoration: underline;
+}
+
+
+.mountain-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 4px solid #2d5e2f;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+
+.mountain-title h1 {
+    margin: 0 0 5px 0;
+    color: #2d5e2f;
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+.mountain-title span {
+    color: #8da48f;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+
+.status-badge {
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    border: 2px solid #637864;
+    transition: all 0.3s ease;
+    margin-bottom: 5px;
+}
+.status-badge.uncompleted {
+    background-color: rgba(99, 120, 100, 0.1);
+    color: #637864;
+}
+.status-badge.uncompleted:hover {
+    background-color: rgba(99, 120, 100, 0.2);
+}
+.status-badge.completed {
+    background-color: #2d5e2f;
+    color: #f3f5e4;
+    border-color: #2d5e2f;
+}
+
+
+.info-content-wrapper {
+    display: flex;
+    gap: 40px; 
+    width: 100%;
+    align-items: flex-start;
+}
+
+
+.left-content {
+    flex: 60; 
+    display: flex;
+    flex-direction: column; 
+}
+
+
+.right-image-sidebar {
+    flex: 40;
+}
+
+
+.info-grid {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 30px;
+    background-color: rgba(45, 94, 47, 0.06);
+    padding: 18px;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+.info-item {
+    flex: 1;
+    text-align: left;
+}
+.info-item strong {
+    color: #2d5e2f;
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.info-item span {
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+.content-section {
+    margin-bottom: 30px;
+    display: block;
+    width: 100%;
+}
+.content-section h3 {
+    color: #2d5e2f;
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 12px;
+    border-left: 5px solid #2d5e2f;
+    padding-left: 10px;
+}
+
+
+.route-box {
+    color: #555;
+    background-color: rgba(0, 0, 0, 0.02);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 0;
+    line-height: 1.6;
+    font-size: 15px;
+    border: 1px dashed #637864;
+}
+
+
+.description-box {
+    line-height: 1.8;
+    color: #333;
+    font-size: 16px;
+    text-align: justify;
+    letter-spacing: 0.5px;
+}
+
+
+.mountain-image-container {
+    width: 100%;
+    height: 400px;
+    background-color: rgba(99, 120, 100, 0.08); 
+    border-radius: 14px;
+    border: 3px dashed #8da48f; 
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+.image-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 90%;
+}
+.placeholder-icon {
+    font-size: 60px;
+    margin-bottom: 15px;
+    opacity: 0.6;
+}
+.placeholder-text {
+    color: #637864;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.5;
+}
+.placeholder-text small {
+    font-weight: normal;
+    color: #888;
+}
+
+#mtImg {
+    width: 100%;          /* 寬度100%填滿外框 */
+    height: 100%;         /* 高度100%填滿外框 (對齊你設定的 400px) */
+    object-fit: cover;    /* 終極絕招：自動裁切填滿，圖片絕對不扁塌變形！ */
+    object-position: center; /* 圖片對齊中心點 */
+    border-radius: 11px;  /* 稍微修圓角，配合你的外框 */
+}
