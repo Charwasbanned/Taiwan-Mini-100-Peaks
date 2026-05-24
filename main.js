@@ -57,6 +57,13 @@ const southSection = document.getElementById("southSection");
 const eastSection = document.getElementById("eastSection");
 const islandSection = document.getElementById("islandSection");
 
+mainBtn.addEventListener("click", () => {
+    window.location.href = "index.html";
+})
+
+mySpaceBtn.addEventListener("click", () => {
+    window.location.href = "myspace.html";
+})
 
 mainBtn.addEventListener("click", () => {
     mainSection.scrollIntoView({
