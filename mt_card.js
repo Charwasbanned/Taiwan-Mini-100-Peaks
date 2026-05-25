@@ -109,13 +109,26 @@ function updateButtonVisual(mountainId) {
 
 // 讓內頁導覽列的首頁按鈕，在點擊時能正常跳回首頁
 document.addEventListener("DOMContentLoaded", function () {
-    const mainBtn = document.getElementById("main");
+    const mainBtn = document.getElementById("mainBtn");
     if (mainBtn) {
         mainBtn.addEventListener("click", () => {
             let currentPath = window.location.pathname;
             let basePath = currentPath.substring( 0, currentPath.lastIndexOf("/"),);
             window.location.href =
                 window.location.origin + basePath + "/index.html";
+        });
+    }
+});
+
+// 讓內頁導覽列的我的空間按鈕，在點擊時能跳到我的空間
+document.addEventListener("DOMContentLoaded", function () {
+    const mainBtn = document.getElementById("mySpaceBtn");
+    if (mySpaceBtn) {
+        mySpaceBtn.addEventListener("click", () => {
+            let currentPath = window.location.pathname;
+            let basePath = currentPath.substring( 0, currentPath.lastIndexOf("/"),);
+            window.location.href =
+                window.location.origin + basePath + "/myspace.html";
         });
     }
 });
