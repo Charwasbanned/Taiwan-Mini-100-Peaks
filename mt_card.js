@@ -69,14 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 // 呼叫更新按鈕視覺的函式
                 updateButtonVisual(mountain.Mt_id);
 
-                /* 山脈圖片，可以在這裡加上：
-                   if (mountain.Mt_img) {
-                       const imgEl = document.getElementById("mtImg");
-                       imgEl.src = mountain.Mt_img;
-                       imgEl.style.display = "block";
-                       document.querySelector(".image-placeholder").style.display = "none";
-                   }
-                */
             } else {
                 // 如果在 JSON 裡找不到這個 ID 數字
                 alert("找不到該小百岳的詳細資料，為您返回首頁。");
@@ -122,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // 讓內頁導覽列的我的空間按鈕，在點擊時能跳到我的空間
 document.addEventListener("DOMContentLoaded", function () {
-    const mainBtn = document.getElementById("mySpaceBtn");
+    const mySpaceBtn = document.getElementById("mySpaceBtn");
     if (mySpaceBtn) {
         mySpaceBtn.addEventListener("click", () => {
             let currentPath = window.location.pathname;

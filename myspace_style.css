@@ -1,378 +1,471 @@
+* {
+    box-sizing: border-box;
+}
 
-        * {
-            box-sizing: border-box;
-            }
+/* ===== 主容器 ===== */
+.main_container {
+    margin-top: 80px;
+    width: 90%;
+    height: calc(100vh - 100px);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 20px;
+}
 
-            /* ===== 主容器 ===== */
-            .main_container {
-                margin-top: 80px;
-                width: 90%;
-                height: calc(100vh - 100px);
-                margin-left: auto;
-                margin-right: auto;
-                padding: 20px;
-                display: flex;
-                flex-direction: row;
-                align-items: stretch;
-                gap: 20px;
-            }
+/* ===== 左側 ===== */
+.left_container {
+    flex: 0 0 25%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow: hidden;
+    min-width: 0;
+}
 
-            /* ===== 左側 ===== */
-            .left_container {
-                flex: 0 0 25%;
-                display: flex;
-                flex-direction: column;
-                gap: 14px;
-                overflow: hidden;
-                min-width: 0;
-            }
+.avatar_area {
+    flex: 3;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(188, 202, 190, 0.35);
+    border-radius: 20px;
+    overflow: hidden;
+    gap: 12px;
+}
 
-            
-            .avatar_area {
-                flex: 3;
-                min-height: 0;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                background-color: rgba(188, 202, 190, 0.35);
-                border-radius: 20px;
-                overflow: hidden;
-                gap: 12px;
-            }
+.avatar_circle {
+    width: min(120px, 60%);
+    aspect-ratio: 1/1;
+    border: 3px dashed #a3bda4;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #f3f5e4;
+    flex-shrink: 0;
+}
 
-            .avatar_circle {
-                width: min( 120px, 60%);
-                aspect-ratio: 1/1;
-                border: 3px dashed #a3bda4;
-                border-radius: 50%;
-                overflow: hidden;
-                background-color: #f3f5e4;
-                flex-shrink: 0;
-            }
+.avatar_circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(20%);
+}
 
-            .avatar_circle img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                filter: grayscale(20%);
-            }
+.name_area {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 20px;
+    background-color: #e1eac2;
+    padding: 10px 16px;
+}
 
-            
-            .name_area {
-                flex: 1;
-                min-height: 0;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                gap: 8px;
-                border-radius: 20px;
-                background-color: #e1eac2;
-                padding: 10px 16px;
-            }
+.username {
+    font-size: clamp(14px, 1.5vw, 22px);
+    font-weight: bold;
+    color: #2d5e2f;
+    letter-spacing: 1px;
+}
 
-            .username {
-                font-size: clamp(14px, 1.5vw, 22px);
-                font-weight: bold;
-                color: #2d5e2f;
-                letter-spacing: 1px;
-            }
+.level_row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
-            .level_row {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
+.level_badge {
+    font-size: clamp(11px, 1vw, 14px);
+    font-weight: bold;
+    color: #637864;
+    white-space: nowrap;
+}
 
-            .level_badge {
-                font-size: clamp(11px, 1vw, 14px);
-                font-weight: bold;
-                color: #637864;
-                white-space: nowrap;
-            }
+.exp_track {
+    flex-grow: 1;
+    height: 13px;
+    border: 1.5px solid #2d5e2f;
+    border-radius: 10px;
+    background-color: #f3f5e4;
+    overflow: hidden;
+}
 
-            .exp_track {
-                flex-grow: 1;
-                height: 13px;
-                border: 1.5px solid #2d5e2f;
-                border-radius: 10px;
-                background-color: #f3f5e4;
-                overflow: hidden;
-            }
+.exp_fill {
+    height: 100%;
+    background-color: #a3c4a4;
+    border-radius: 10px;
+}
 
-            .exp_fill {
-                height: 100%;
-                background-color: #a3c4a4;
-                border-radius: 10px;
-            }
+.exp_label {
+    font-size: 11px;
+    color: #888;
+    text-align: right;
+}
 
-            .exp_label {
-                font-size: 11px;
-                color: #888;
-                text-align: right;
-            }
+.achivement_area {
+    flex: 2;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    border-radius: 20px;
+    background: linear-gradient(120deg, #c9d7a6, #d8edcc);
+    padding: 14px 16px;
+    overflow: hidden;
+}
 
-            
-            .achivement_area {
-                flex: 2;
-                min-height: 0;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                gap: 10px;
-                border-radius: 20px;
-                background: linear-gradient(120deg, #c9d7a6, #d8edcc);
-                padding: 14px 16px;
-                overflow: hidden;
-            }
+.achivement_title {
+    font-size: clamp(12px, 1.2vw, 15px);
+    font-weight: bold;
+    color: #2d5e2f;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+}
 
-            .achivement_title {
-                font-size: clamp(12px, 1.2vw, 15px);
-                font-weight: bold;
-                color: #2d5e2f;
-                letter-spacing: 1px;
-                flex-shrink: 0;
-            }
+.badge_list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-content: flex-start;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+.badge_list::-webkit-scrollbar {
+    display: none;
+}
 
-          
-            .badge_list {
-                display: flex;
-                flex-wrap: wrap;       
-                gap: 10px;
-                align-content: flex-start;
-                overflow-y: auto;
-                scrollbar-width: none;
-            }
-            .badge_list::-webkit-scrollbar { display: none; }
+.badge_item {
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+}
 
-            .badge_item {
-                position: relative;
-                cursor: pointer;
-                flex-shrink: 0;
-            }
+.badge_icon {
+    width: clamp(38px, 4vw, 56px);
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(16px, 1.8vw, 24px);
+    transition: transform 0.2s;
+    background-color: #a3ff05;
+}
+.badge_icon:hover {
+    transform: scale(1.12);
+}
 
-            .badge_icon {
-                width: clamp(38px, 4vw, 56px);
-                aspect-ratio: 1/1;
-                border-radius: 50%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-size: clamp(16px, 1.8vw, 24px);
-                transition: transform 0.2s;
-                background-color: #a3ff05;
-            }
-            .badge_icon:hover { transform: scale(1.12); }
+.badge_item:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #eff6fa;
+    color: #2d5e2f;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+    border: 1px solid #cce0f0;
+    z-index: 100;
+    pointer-events: none;
+}
 
-            
-            
-            .badge_item:hover::after {
-                content: attr(data-tooltip);
-                position: absolute;
-                top: 110%;
-                left: 50%;
-                transform: translateX(-50%);
-                background-color: #eff6fa;
-                color: #2d5e2f;
-                padding: 4px 8px;
-                border-radius: 6px;
-                font-size: 11px;
-                font-weight: bold;
-                white-space: nowrap;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.12);
-                border: 1px solid #cce0f0;
-                z-index: 100;
-                pointer-events: none;
-            }
+/* ===== 中間 ===== */
+.center_container {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.center_container::-webkit-scrollbar {
+    display: none;
+}
 
-            /* ===== 中間 ===== */
-            .center_container {
-                flex: 1 1 0;
-                min-width: 0;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-                overflow-y: scroll;
-                scrollbar-width: none;
-                -ms-overflow-style: none;
-            }
-            .center_container::-webkit-scrollbar { display: none; }
+.circle_wrap {
+    width: min(100%, 320px);
+    aspect-ratio: 1 / 1;
+    position: relative;
+    flex-shrink: 0;
+}
 
-            
-            .circle_wrap {
-                width: min(100%, 320px);
-                aspect-ratio: 1 / 1;
-                position: relative;
-                flex-shrink: 0;
-            }
+.circle_wrap svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
 
-            .circle_wrap svg {
-                width: 100%;
-                height: 100%;
-                display: block;
-            }
+.circle_label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+    font-size: clamp(12px, 2vw, 17px);
+}
 
-            .circle_label {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                text-align: center;
-                pointer-events: none;
-                font-size: clamp(12px, 2vw, 17px);
-            }
+.circle_title {
+    display: block;
+    font-weight: bold;
+    color: #2d5e2f;
+    margin-bottom: 4px;
+    font-size: 1em;
+}
 
-            .circle_title {
-                display: block;
-                font-weight: bold;
-                color: #2d5e2f;
-                margin-bottom: 4px;
-                font-size: 1em;
-            }
+.circle_pct {
+    display: block;
+    font-size: 2.4em;
+    font-weight: 900;
+    color: #2d5e2f;
+    line-height: 1;
+}
 
-            .circle_pct {
-                display: block;
-                font-size: 2.4em;
-                font-weight: 900;
-                color: #2d5e2f;
-                line-height: 1;
-            }
+/* 進度條 */
+.process_bar_area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-shrink: 0;
+    padding-bottom: 10px;
+}
 
-            /* 進度條 */
-            .process_bar_area {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                gap: 16px;
-                flex-shrink: 0;
-                padding-bottom: 10px;
-            }
+.process_bar {
+    width: 100%;
+}
 
-            .process_bar { width: 100%; }
+.bar_header {
+    display: flex;
+    justify-content: space-between;
+    font-size: clamp(13px, 1.2vw, 16px);
+    font-weight: bold;
+    color: #2d5e2f;
+    margin-bottom: 5px;
+}
 
-            .bar_header {
-                display: flex;
-                justify-content: space-between;
-                font-size: clamp(13px, 1.2vw, 16px);
-                font-weight: bold;
-                color: #2d5e2f;
-                margin-bottom: 5px;
-            }
+.bar_track {
+    width: 100%;
+    height: 16px;
+    border: 1.5px solid #637864;
+    border-radius: 10px;
+    background-color: #f3f5e4;
+    overflow: hidden;
+}
 
-            .bar_track {
-                width: 100%;
-                height: 16px;
-                border: 1.5px solid #637864;
-                border-radius: 10px;
-                background-color: #f3f5e4;
-                overflow: hidden;
-            }
+.bar_fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(to right, #b4d9b9, #2d5e2f);
+}
 
-            .bar_fill {
-                height: 100%;
-                border-radius: 10px;
-                background: linear-gradient(to right, #b4d9b9, #2d5e2f);
-            }
+/* ===== 右側 ===== */
+.right_container {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: hidden;
+}
 
-            /* ===== 右側 ===== */
-            .right_container {
-                flex: 1 1 0;
-                min-width: 0;
-                display: flex;
-                flex-direction: column;
-                gap: 12px;
-                overflow: hidden;
-            }
+.note_title {
+    width: 95%;
+    padding: 8px 10px;
+    text-align: left;
+    font-size: clamp(18px, 2vw, 28px);
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: #2a422c;
+    border-left: 4px solid rgb(81, 124, 82);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
 
-            .note_title {
-                width: 95%;
-                padding: 8px 10px;
-                text-align: left;
-                font-size: clamp(18px, 2vw, 28px);
-                font-weight: 800;
-                letter-spacing: 3px;
-                color: #2a422c;
-                border-left: 4px solid rgb(81, 124, 82);
-                transition: all 0.3s ease;
-                flex-shrink: 0;
-            }
+.note_list {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+.note_list::-webkit-scrollbar {
+    display: none;
+}
 
-            
+.note_card {
+    width: 100%;
+    min-height: 80px;
+    background: linear-gradient(135deg, #e5f9b4, #d8edcc);
+    border-radius: 16px;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+    flex-shrink: 0;
+}
+.note_card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(45, 94, 47, 0.15);
+}
 
-            .note_list {
-                flex: 1;
-                min-height: 0;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                overflow-y: auto;
-                scrollbar-width: none;
-            }
-            .note_list::-webkit-scrollbar { display: none; }
+.note_card_date {
+    font-size: 11px;
+    color: #8da48f;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
 
-            .note_card {
-                width: 100%;
-                min-height: 80px;
-                background: linear-gradient(135deg, #e5f9b4, #d8edcc);
-                border-radius: 16px;
-                padding: 12px 16px;
-                display: flex;
-                flex-direction: column;
-                gap: 6px;
-                cursor: pointer;
-                transition: transform 0.2s, box-shadow 0.2s;
-                flex-shrink: 0;
-            }
-            .note_card:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 4px 12px rgba(45, 94, 47, 0.15);
-            }
+.note_card_mountain {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2d5e2f;
+    display: block;       /* 讓 span 變成塊級元素 */
+    width: 100%;          /* 撐滿卡片可用寬度 */
+    word-break: break-all;/* 確保遇到長英文字或符號也能強制換行 */
+    margin-bottom: 5px;   /* 跟下方的預覽文字保持一點微小間距 */
+}
 
-            .note_card_date {
-                font-size: 11px;
-                color: #8da48f;
-                font-weight: bold;
-                letter-spacing: 0.5px;
-            }
+.note_card_preview {
+    font-size: clamp(11px, 1vw, 13px);
+    color: #637864;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-all;
+}
 
-            .note_card_mountain {
-                font-size: clamp(13px, 1.2vw, 16px);
-                font-weight: bold;
-                color: #2d5e2f;
-            }
+.note_add_btn {
+    width: 100%;
+    padding: 12px;
+    border: 2px dashed #a3bda4;
+    border-radius: 16px;
+    background: transparent;
+    color: #637864;
+    font-size: clamp(13px, 1.2vw, 15px);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    letter-spacing: 1px;
+}
+.note_add_btn:hover {
+    background-color: rgba(163, 196, 164, 0.2);
+    border-color: #637864;
+    color: #2d5e2f;
+}
 
-            .note_card_preview {
-                font-size: clamp(11px, 1vw, 13px);
-                color: #637864;
-                line-height: 1.5;
-                
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-            }
+/* 日記彈窗 */
+.modal_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal_content {
+    background: #f3f5e4;
+    padding: 25px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border: 3px solid #637864;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+.modal_content h3 {
+    color: #2d5e2f;
+    margin: 0;
+    font-size: 22px;
+}
+.modal_content input,
+.modal_content select,
+.modal_content textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #a3bda4;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    background: #fff;
+    color: #2d5e2f;
+}
+.modal_content textarea {
+    height: 160px;
+    resize: none;
+}
+.modal_actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 5px;
+}
+.cancel_btn {
+    background: transparent;
+    border: 2px solid #888;
+    color: #888;
+    padding: 8px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.save_btn {
+    background: #2d5e2f;
+    border: 2px solid #2d5e2f;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
 
-            
-            .note_add_btn {
-                width: 100%;
-                padding: 12px;
-                border: 2px dashed #a3bda4;
-                border-radius: 16px;
-                background: transparent;
-                color: #637864;
-                font-size: clamp(13px, 1.2vw, 15px);
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.2s;
-                flex-shrink: 0;
-                letter-spacing: 1px;
-            }
-            .note_add_btn:hover {
-                background-color: rgba(163, 196, 164, 0.2);
-                border-color: #637864;
-                color: #2d5e2f;
-            }
+/* 讓日記卡片在滑鼠懸停時有微微浮起與變深的效果*/
+.note_card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
+.note_card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(45, 94, 47, 0.25);
+    background-color: rgba(255, 255, 255, 0.8);
+}
 
-        
+/* 修正查看日記彈窗中的標題自動換行 */
+#viewDiaryTitle {
+    white-space: normal !important;  /* 解除強制不換行的限制 */
+    word-break: break-all !important; /* 確保遇到長英文、網址或特殊符號時也能強制折行 */
+    width: 100%;                     /* 撐滿彈窗可用寬度 */
+    display: block;                  /* 確保以區塊元素形式完整換行 */
+    line-height: 1.4;                /* 稍微增加換行後的行高，看起來比較舒適 */
+}
