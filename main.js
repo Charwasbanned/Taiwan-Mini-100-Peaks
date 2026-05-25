@@ -41,6 +41,8 @@ document.addEventListener("DOMContentLoaded", function () {
 // 區域按鈕點擊後，滑動到對應區塊
 
 // 取得按鈕
+const mainBtn = document.getElementById("mainBtn");
+const mySpaceBtn = document.getElementById("mySpaceBtn");
 const northBtn = document.getElementById("northBtn");
 const centerBtn = document.getElementById("centerBtn");
 const southBtn = document.getElementById("southBtn");
@@ -48,43 +50,57 @@ const eastBtn = document.getElementById("eastBtn");
 const islandBtn = document.getElementById("islandBtn");
 
 // 取得對應區域
+const mainSection = document.getElementById("mainSection");
 const northSection = document.getElementById("northSection");
 const centerSection = document.getElementById("centerSection");
 const southSection = document.getElementById("southSection");
 const eastSection = document.getElementById("eastSection");
 const islandSection = document.getElementById("islandSection");
 
+mainBtn.addEventListener("click", () => {
+    window.location.href = "index.html";
+})
+
+mySpaceBtn.addEventListener("click", () => {
+    window.location.href = "myspace.html";
+})
+
+mainBtn.addEventListener("click", () => {
+    mainSection.scrollIntoView({
+        behavior: "smooth"
+    });
+});
 // 北部區域
 northBtn.addEventListener("click", () => {
     northSection.scrollIntoView({
-        behavior: "smooth",
+        behavior: "smooth"
     });
 });
 
 // 中部區域
 centerBtn.addEventListener("click", () => {
     centerSection.scrollIntoView({
-        behavior: "smooth",
+        behavior: "smooth"
     });
 });
 
 // 南部區域
 southBtn.addEventListener("click", () => {
     southSection.scrollIntoView({
-        behavior: "smooth",
+        behavior: "smooth"
     });
 });
 
 // 東部區域
 eastBtn.addEventListener("click", () => {
     eastSection.scrollIntoView({
-        behavior: "smooth",
+        behavior: "smooth"
     });
 });
 
 // 離島區域
 islandBtn.addEventListener("click", () => {
     islandSection.scrollIntoView({
-        behavior: "smooth",
+        behavior: "smooth"
     });
 });
