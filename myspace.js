@@ -36,7 +36,12 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("請輸入暱稱");
             return;
         }
-        
+
+        if (newName.length > 10) {
+        alert('暱稱不能大於10個字');
+        return;
+        }
+
         userNameDisplay.textContent = newName;
         localStorage.setItem("myUserName", newName); // 存入 localStorage
         nameModal.style.display = "none"; // 關閉彈窗
