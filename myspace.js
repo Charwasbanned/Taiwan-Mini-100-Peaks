@@ -1,4 +1,89 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // --- 個人資料設定 (頭貼與姓名) ---
+    const userNameDisplay = document.getElementById("userNameDisplay");
+    const editNameBtn = document.getElementById("editNameBtn");
+    const avatarContainer = document.getElementById("avatarContainer");
+    const avatarInput = document.getElementById("avatarInput");
+    const userAvatar = document.getElementById("userAvatar");
+
+    // 新增：取得改名彈窗相關的 DOM 元素
+    const nameModal = document.getElementById("nameModal");
+    const newUserNameInput = document.getElementById("newUserNameInput");
+    const cancelNameBtn = document.getElementById("cancelNameBtn");
+    const saveNameBtn = document.getElementById("saveNameBtn");
+
+    // 1. 網頁載入時，從 localStorage 讀取已儲存的資料（如果沒有就給預設值）
+    const savedName = localStorage.getItem("myUserName") || "User";
+    const savedAvatar =
+        localStorage.getItem("myUserAvatar") || "images/default_pfp.jpg";
+    userNameDisplay.textContent = savedName;
+    userAvatar.src = savedAvatar;
+
+    // 2. 更改姓名
+    editNameBtn.addEventListener("click", () => {
+        newUserNameInput.value = userNameDisplay.textContent.trim();
+        nameModal.style.display = "flex"; // 打開彈窗
+    });
+
+    cancelNameBtn.addEventListener("click", () => {
+        nameModal.style.display = "none"; // 關閉彈窗
+    });
+
+    saveNameBtn.addEventListener("click", () => {
+        const newName = newUserNameInput.value.trim();
+
+        if (newName === "") {
+            alert("請輸入暱稱");
+            return;
+        }
+        
+        userNameDisplay.textContent = newName;
+        localStorage.setItem("myUserName", newName); // 存入 localStorage
+        nameModal.style.display = "none"; // 關閉彈窗
+    });
+
+    // 點擊彈窗外部背景也可以關閉彈窗
+    nameModal.addEventListener("click", (e) => {
+        if (e.target === nameModal) {
+            nameModal.style.display = "none";
+        }
+    });
+
+    // 3. 更改頭貼
+    // 當點擊頭貼圓圈時，自動觸發隱藏的 input 上傳視窗
+    avatarContainer.addEventListener("click", () => {
+        avatarInput.click();
+    });
+
+    // 當使用者選好圖片檔案後
+    avatarInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // 建立 FileReader 物件來讀取圖片內容
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                // event.target.result 就是轉換成 Base64 的長字串
+                const base64String = event.target.result;
+
+                // 更新畫面上的圖片
+                userAvatar.src = base64String;
+
+                // 存進 localStorage
+                try {
+                    localStorage.setItem("myUserAvatar", base64String);
+                } catch (error) {
+                    alert("圖片檔案太大囉！請選擇小於3MB的圖片");
+                }
+            };
+
+            // 讀取檔案並轉換成 Data URL (Base64字串)
+            reader.readAsDataURL(file);
+        }
+    });
+    // --- 個人資料設定結束 ---
+
+    // --- 日記部分 ---
     // 取得 DOM 元素（新增日記相關）
     const diaryModal = document.getElementById("diaryModal");
     const noteAddBtn = document.querySelector(".note_add_btn");
