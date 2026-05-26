@@ -28,7 +28,7 @@
 
 .avatar_area {
     flex: 3;
-    min-height: 0;
+    height: 29%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -111,7 +111,7 @@
 
 .achivement_area {
     flex: 2;
-    min-height: 0;
+   height: 34%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -137,6 +137,7 @@
     align-content: flex-start;
     overflow-y: auto;
     scrollbar-width: none;
+    height: 100%;
 }
 .badge_list::-webkit-scrollbar {
     display: none;
@@ -158,6 +159,7 @@
     font-size: clamp(16px, 1.8vw, 24px);
     transition: transform 0.2s;
     background-color: #a3ff05;
+    z-index: 8888;
 }
 .badge_icon:hover {
     transform: scale(1.12);
@@ -169,7 +171,7 @@
     top: 110%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #eff6fa;
+    background-color: #d8ebd7;
     color: #2d5e2f;
     padding: 4px 8px;
     border-radius: 6px;
@@ -311,6 +313,12 @@
     display: none;
 }
 
+.note_wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+}
 .note_card {
     width: 100%;
     min-height: 80px;
@@ -325,10 +333,14 @@
         transform 0.2s,
         box-shadow 0.2s;
     flex-shrink: 0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+
 .note_card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(45, 94, 47, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(45, 94, 47, 0.25);
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 .note_card_date {
@@ -362,6 +374,7 @@
 .note_add_btn {
     width: 100%;
     padding: 12px;
+    margin-bottom: 10px;
     border: 2px dashed #a3bda4;
     border-radius: 16px;
     background: transparent;
@@ -450,16 +463,6 @@
     font-weight: bold;
 }
 
-/* 讓日記卡片在滑鼠懸停時有微微浮起與變深的效果*/
-.note_card {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.note_card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(45, 94, 47, 0.25);
-    background-color: rgba(255, 255, 255, 0.8);
-}
 
 /* 修正查看日記彈窗中的標題自動換行 */
 #viewDiaryTitle {
@@ -468,4 +471,18 @@
     width: 100%;                     /* 撐滿彈窗可用寬度 */
     display: block;                  /* 確保以區塊元素形式完整換行 */
     line-height: 1.4;                /* 稍微增加換行後的行高，看起來比較舒適 */
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+        
+    .avatar_area {
+        height: 22%;
+    }
+    .name_area {
+        height: 10%;
+    }
+    .achivement_area {
+        height: 25%;
+    }
 }
