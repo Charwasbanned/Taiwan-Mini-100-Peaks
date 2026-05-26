@@ -1,19 +1,19 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
     <head>
-        <link rel="stylesheet" href="main_style.css">
+        <link rel="stylesheet" href="main_style.css" />
         <title>小百岳</title>
     </head>
     <body>
         <div class="main_menu">
             <ul class="menu_list">
-                <li class = 'menu_part' id="mainBtn" >首頁</li>
-    	        <li class = 'menu_part' id="mySpaceBtn">我的空間</li>
-    	        <li class = 'menu_part' id="northBtn">北部區域</li>
-    	        <li class = 'menu_part' id="centerBtn">中部區域</li>
-    	        <li class = 'menu_part' id="southBtn">南部區域</li>
-    	        <li class = 'menu_part' id="eastBtn">東部區域</li>
-    	        <li class = 'menu_part' id="islandBtn">離島區域</li>
+                <li class="menu_part" id="mainBtn">首頁</li>
+                <li class="menu_part" id="mySpaceBtn">我的空間</li>
+                <li class="menu_part" id="northBtn">北部區域</li>
+                <li class="menu_part" id="centerBtn">中部區域</li>
+                <li class="menu_part" id="southBtn">南部區域</li>
+                <li class="menu_part" id="eastBtn">東部區域</li>
+                <li class="menu_part" id="islandBtn">離島區域</li>
             </ul>
         </div>
         <div class="title_top" id="mainSection">小百岳指南</div>
@@ -22,14 +22,14 @@
                 type="text"
                 id="search"
                 placeholder="請輸入關鍵字（例如：大武崙山）"
-                />
+            />
             <button onclick="checkSearch()">搜尋</button>
         </div>
-        <div class = "block_ad" id="northSection">
+        <div class="block_ad" id="northSection">
             <div class="title_part">&nbsp;&nbsp;北部區域</div>
             <ul class="mountain_menu" data-region="北部區域"></ul>
         </div>
-        <div class = "block_ad" id="centerSection">
+        <div class="block_ad" id="centerSection">
             <div class="title_part">&nbsp;&nbsp;中部區域</div>
             <ul class="mountain_menu" data-region="中部區域"></ul>
         </div>
@@ -46,6 +46,5 @@
             <ul class="mountain_menu" data-region="離島區域"></ul>
         </div>
         <script src="main.js"></script>
-        <!--我把滑動的js也加進去了-->
     </body>
 </html>

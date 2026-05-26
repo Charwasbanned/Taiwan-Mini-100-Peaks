@@ -65,11 +65,6 @@ mySpaceBtn.addEventListener("click", () => {
     window.location.href = "myspace.html";
 })
 
-mainBtn.addEventListener("click", () => {
-    mainSection.scrollIntoView({
-        behavior: "smooth"
-    });
-});
 // 北部區域
 northBtn.addEventListener("click", () => {
     northSection.scrollIntoView({
@@ -104,3 +99,5 @@ islandBtn.addEventListener("click", () => {
         behavior: "smooth"
     });
 });
+
+//TODO: checkSearch

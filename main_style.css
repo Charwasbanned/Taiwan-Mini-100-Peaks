@@ -13,7 +13,6 @@ body {
 
 .menu_list {
     position: relative;
-
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -55,7 +54,7 @@ body {
     color: #f3f5e4;
 }
 .title_top {
-    margin: 20% 0;
+    margin: 10% 0;
     text-align: center;
     font-size: 80px;
     font-family: Noto Serif CJK TC;
@@ -68,7 +67,7 @@ body {
     margin: 5%;
     padding: 20px;
     display: flex;
-    justify-content: center; /* 或 fixed */
+    justify-content: center;
 }
 
 #search {
