@@ -167,6 +167,8 @@ document.addEventListener("DOMContentLoaded", function () {
         diaryModal.style.display = "none";
         clearModal();
         renderDiaries();
+        updateDashboardProgress(); // <--- 補上這行！儲存日記後同步更新圓環和進度條
+        updateLevel()
     });
 
     // 清空新增欄位
@@ -252,4 +254,162 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.location.origin + basePath + "/myspace.html";
         });
     }
+});
+
+// ==========================================
+// 自動計算並更新「我的空間」進度條與圓環邏輯
+// ==========================================
+function updateDashboardProgress() {
+    // 1. 取得已完成的山脈 ID 清單 (從日記儲存的 localStorage 抓取)
+    const climbedIds = JSON.parse(localStorage.getItem("climbedMountains")) || [];
+    
+    // 2. 讀取 mountains.json 來進行比對與分類
+    fetch("mountains.json")
+        .then(response => response.json())
+        .then(data => {
+            // 初始化各區域的計數器
+            const regionStats = {
+                "北部區域": { total: 0, climbed: 0 },
+                "中部區域": { total: 0, climbed: 0 },
+                "南部區域": { total: 0, climbed: 0 },
+                "東部區域": { total: 0, climbed: 0 },
+                "離島區域": { total: 0, climbed: 0 }
+            };
+            
+            let totalMountains = data.length;
+            let totalClimbed = 0;
+
+            // 3. 遍歷 100 座山，統計總數與已攀登數量
+            data.forEach(mt => {
+                if (regionStats[mt.Mt_region]) {
+                    regionStats[mt.Mt_region].total++; // 該區域總數 +1
+                    
+                    // 如果這座山的 ID 在已攀登清單中
+                    if (climbedIds.includes(mt.Mt_id)) {
+                        regionStats[mt.Mt_region].climbed++;
+                        totalClimbed++;
+                    }
+                }
+            });
+
+            // 4. 更新總進度圓環 (SVG)
+            const totalPct = totalMountains === 0 ? 0 : Math.round((totalClimbed / totalMountains) * 100);
+            document.querySelector(".circle_pct").textContent = `${totalPct}%`;
+            
+            // 計算 SVG 圓環的周長 (半徑 r=66, 周長 = 2 * pi * 66 ≒ 414.69)
+            const circumference = 2 * Math.PI * 66; 
+            const dashValue = (totalPct / 100) * circumference; // 計算填滿的長度
+            
+            // 選取第二個 circle (負責顯示進度條的那個)
+            const progressCircle = document.querySelectorAll(".circle_wrap svg circle")[1];
+            if (progressCircle) {
+                // 利用 stroke-dasharray 控制圓環長度，加上平滑轉場效果
+                progressCircle.style.transition = "stroke-dasharray 1s ease-in-out";
+                progressCircle.setAttribute("stroke-dasharray", `${dashValue} ${circumference}`);
+            }
+
+            // 5. 更新下方五個區域的橫向進度條
+            const processBars = document.querySelectorAll(".process_bar");
+            processBars.forEach(bar => {
+                const regionNameSpan = bar.querySelector(".bar_header span:first-child");
+                const progressNumSpan = bar.querySelector(".bar_header span:last-child");
+                const fillDiv = bar.querySelector(".bar_fill");
+                
+                if (regionNameSpan && regionStats[regionNameSpan.textContent]) {
+                    const regionName = regionNameSpan.textContent;
+                    const stats = regionStats[regionName];
+                    
+                    // 更新文字 (例如: 5/35)
+                    progressNumSpan.textContent = `${stats.climbed}/${stats.total}`;
+                    
+                    // 計算該區域百分比並更新寬度
+                    const barPct = stats.total === 0 ? 0 : (stats.climbed / stats.total) * 100;
+                    fillDiv.style.width = `${barPct}%`;
+                    fillDiv.style.transition = "width 1s ease-in-out"; // 加上平滑動畫
+                }
+            });
+        })
+        .catch(error => console.error("無法載入山脈資料以更新進度:", error));
+}
+
+// 網頁一載入時，先執行一次更新畫面
+document.addEventListener("DOMContentLoaded", function () {
+    updateDashboardProgress();
+});
+
+// ==========================================
+// 1. 讀取打勾紀錄與 JSON 總數、2. 計算包含 LEVEL MAX 的遊戲化等級
+// ==========================================
+function updateLevel() {
+    // 1. 讀取本機快取中已完成的山脈 ID 清單
+    const climbedIds = JSON.parse(localStorage.getItem("climbedMountains")) || [];
+
+    fetch("mountains.json")
+        .then(response => response.json())
+        .then(data => {
+            let totalMountains = data.length; // 總山脈數（100座）
+            let totalClimbed = 0;            // 已攀登總數
+
+            // 統計玩家總共勾選了幾座山
+            data.forEach(mt => {
+                if (climbedIds.includes(mt.Mt_id)) {
+                    totalClimbed++;
+                }
+            });
+
+            // ====================================================
+            // 2. 計算包含 LEVEL MAX 的遊戲化等級邏輯
+            // ====================================================
+            let currentLevel = 1;
+            let totalExp = totalClimbed * 100; // 每爬 1 座山 = 100 EXP
+            let expNeededForNextLevel = currentLevel * 120; // 升級公式：當前等級 * 120
+
+            // 抓取網頁中的 HTML 元素
+            const levelBadge = document.querySelector(".level_badge");
+            const expLabel = document.querySelector(".exp_label");
+            const expFill = document.querySelector(".exp_fill");
+
+            // 判斷是否 100 座完美封頂
+            if (totalClimbed >= 100) {
+                // --- 100座全滿：觸發 LEVEL MAX 封頂狀態 ---
+                if (levelBadge) levelBadge.textContent = "LV. MAX";
+                if (expLabel) expLabel.textContent = "100 / 100 座全制霸！";
+                
+                if (expFill) {
+                    expFill.style.transition = "width 1.5s ease-out";
+                    setTimeout(() => {
+                        expFill.style.width = "100%"; // 經驗條扣到底填滿
+                    }, 100);
+                }
+            } else {
+                // --- 未滿 100 座：執行逐級扣除計算 ---
+                while (totalExp >= expNeededForNextLevel) {
+                    totalExp -= expNeededForNextLevel; // 扣掉當前升級所需經驗
+                    currentLevel++;                   // 等級提升
+                    expNeededForNextLevel = currentLevel * 120; // 計算下一等新門檻
+                }
+
+                // 計算當前等級剩餘經驗值的百分比
+                const expPercentage = (totalExp / expNeededForNextLevel) * 100;
+
+                // 更新網頁 UI 文字與動畫
+                if (levelBadge) levelBadge.textContent = `LV. ${currentLevel}`;
+                if (expLabel) expLabel.textContent = `${totalExp} / ${expNeededForNextLevel}`;
+                
+                if (expFill) {
+                    expFill.style.transition = "width 1.5s ease-out";
+                    setTimeout(() => {
+                        expFill.style.width = `${expPercentage}%`; // 經驗條長出動畫
+                    }, 100);
+                }
+            }
+        })
+        .catch(error => console.error("資料讀取失敗:", error));
+}
+
+// ==========================================
+// 關鍵：確保在頁面初次載入完成時執行
+// ==========================================
+document.addEventListener("DOMContentLoaded", function () {
+    updateLevel(); // 網頁載入時立刻執行一次
 });
