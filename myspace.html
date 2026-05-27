@@ -23,20 +23,33 @@
             <!-- ===== 左側 ===== -->
             <div class="left_container">
                 <div class="avatar_area">
-                    <div class="avatar_circle">
+                    <div
+                        class="avatar_circle"
+                        id="avatarContainer"
+                        style="cursor: pointer"
+                        title="點擊更換頭貼"
+                    >
                         <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/White-fronted_honeyeater_-_Round_Hill_NSW.jpg/1280px-White-fronted_honeyeater_-_Round_Hill_NSW.jpg?utm_source=species.wikimedia.org&utm_campaign=parser&utm_content=thumbnail"
+                            id="userAvatar"
+                            src="images/default_pfp.jpg"
                             alt="頭像"
-                            onerror="
-                                this.style.display = 'none';
-                                this.nextElementSibling.style.display = 'flex';
-                            "
+                        />
+                        <input
+                            type="file"
+                            id="avatarInput"
+                            accept="image/*"
+                            style="display: none"
+                            maxlength="10"
                         />
                     </div>
                 </div>
 
                 <div class="name_area">
-                    <span class="username">User</span>
+                    <div style="display: flex; align-items: center; gap: 8px">
+                        <span class="username" id="userNameDisplay">User</span>
+                        <button id="editNameBtn">✏️</button>
+                    </div>
+
                     <div class="level_row">
                         <span class="level_badge">LV. 11</span>
                         <div class="exp_track">
@@ -232,6 +245,22 @@
                 <div class="modal_actions">
                     <button id="cancelDiaryBtn" class="cancel_btn">取消</button>
                     <button id="saveDiaryBtn" class="save_btn">儲存日記</button>
+                </div>
+            </div>
+        </div>
+
+        <!--修改姓名彈窗-->
+        <div id="nameModal" class="modal_overlay" style="display: none">
+            <div class="modal_content">
+                <h3>修改使用者名稱</h3>
+                <input
+                    type="text"
+                    id="newUserNameInput"
+                    placeholder="請輸入新的名稱..."
+                />
+                <div class="modal_actions">
+                    <button id="cancelNameBtn" class="cancel_btn">取消</button>
+                    <button id="saveNameBtn" class="save_btn">儲存</button>
                 </div>
             </div>
         </div>
