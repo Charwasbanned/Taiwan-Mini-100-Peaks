@@ -164,7 +164,7 @@
 }
 
 .badge_icon {
-    width: clamp(38px, 4vw, 56px);
+    width: clamp(40px, 4vw, 70px);
     aspect-ratio: 1/1;
     border-radius: 50%;
     display: flex;
@@ -172,7 +172,7 @@
     align-items: center;
     font-size: clamp(16px, 1.8vw, 24px);
     transition: transform 0.2s;
-    background-color: #a3ff05;
+    
     z-index: 8888;
 }
 .badge_icon:hover {
