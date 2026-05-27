@@ -38,8 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (newName.length > 10) {
-        alert('暱稱不能大於10個字');
-        return;
+            alert("暱稱不能大於10個字");
+            return;
         }
 
         userNameDisplay.textContent = newName;
@@ -252,4 +252,118 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.location.origin + basePath + "/myspace.html";
         });
     }
+});
+
+// --- 資料匯出/匯入功能 ---
+document.addEventListener("DOMContentLoaded", function () {
+    const exportBtn = document.getElementById("exportBtn");
+    const importBtn = document.getElementById("importBtn");
+    const importInput = document.getElementById("importInput");
+
+    // 1. 匯出功能
+    exportBtn.addEventListener("click", () => {
+        // 將要匯出的 localStorage 資料打包成一個物件
+        const exportData = {
+            myUserName: localStorage.getItem("myUserName") || "User",
+            myUserAvatar:
+                localStorage.getItem("myUserAvatar") ||
+                "images/default_pfp.jpg",
+            myDiaries: JSON.parse(localStorage.getItem("myDiaries")) || [],
+            climbedMountains:
+                JSON.parse(localStorage.getItem("climbedMountains")) || [],
+        };
+
+        // 轉成 JSON 格式的字串
+        const dataStr = JSON.stringify(exportData, null, 2);
+
+        // 建立 Blob 物件 (MIME type 為 application/json)
+        const blob = new Blob([dataStr], { type: "application/json" });
+        // 產生一個網頁內部的暫存下載連結
+        const url = URL.createObjectURL(blob);
+
+        // 建立一個隱藏的 <a> 標籤來觸發下載
+        const a = document.createElement("a");
+        a.href = url;
+        // 設定下載的預設檔名，加上當天的日期
+        const today = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+        a.download = `小百岳紀錄_${today}.json`;
+
+        document.body.appendChild(a);
+        a.click(); // 模擬點擊下載
+
+        // 下載完畢後清除隱藏標籤與釋放記憶體
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
+    // 2. 觸發隱藏的檔案上傳輸入框
+    importBtn.addEventListener("click", () => {
+        importInput.click();
+    });
+
+    // 3. 匯入功能
+    importInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            try {
+                // 將讀取到的純文字轉回 JSON 物件
+                const importedData = JSON.parse(event.target.result);
+
+                // 檢查檔案
+                if (
+                    importedData.myDiaries !== undefined &&
+                    importedData.climbedMountains !== undefined
+                ) {
+                    // 跳出警告，再次確認使用者意願
+                    if (
+                        !confirm(
+                            "警告：匯入新紀錄將會完全覆蓋目前的進度、頭貼與日記！確定要繼續嗎？",
+                        )
+                    ) {
+                        importInput.value = ""; // 如果取消，清空選擇
+                        return;
+                    }
+
+                    // 將資料寫回 localStorage
+                    if (importedData.myUserName)
+                        localStorage.setItem(
+                            "myUserName",
+                            importedData.myUserName,
+                        );
+                    if (importedData.myUserAvatar)
+                        localStorage.setItem(
+                            "myUserAvatar",
+                            importedData.myUserAvatar,
+                        );
+                    localStorage.setItem(
+                        "myDiaries",
+                        JSON.stringify(importedData.myDiaries),
+                    );
+                    localStorage.setItem(
+                        "climbedMountains",
+                        JSON.stringify(importedData.climbedMountains),
+                    );
+
+                    alert("匯入成功！點擊確定後將重新載入頁面。");
+                    window.location.reload(); // 重新整理頁面以顯示新資料
+                } else {
+                    alert(
+                        "匯入失敗：檔案格式不正確，請確認這是由本系統匯出的紀錄檔。",
+                    );
+                }
+            } catch (error) {
+                alert("檔案讀取錯誤，請確認檔案是否為 JSON 格式。");
+            }
+
+            // 清空 input，讓下次即使選同一個檔案也能正常觸發 change 事件
+            importInput.value = "";
+        };
+
+        // 將檔案讀取為文字
+        reader.readAsText(file);
+    });
 });
