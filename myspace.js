@@ -368,21 +368,198 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// ==========================================
+// 自動計算並更新「我的空間」進度條與圓環邏輯
+// ==========================================
+function updateDashboardProgress() {
+    // 1. 取得已完成的山脈 ID 清單 (從日記儲存的 localStorage 抓取)
+    const climbedIds =
+        JSON.parse(localStorage.getItem("climbedMountains")) || [];
 
-// ===== 徽章系統與進度計算邏輯 =====
+    // 2. 讀取 mountains.json 來進行比對與分類
+    fetch("mountains.json")
+        .then((response) => response.json())
+        .then((data) => {
+            // 初始化各區域的計數器
+            const regionStats = {
+                北部區域: { total: 0, climbed: 0 },
+                中部區域: { total: 0, climbed: 0 },
+                南部區域: { total: 0, climbed: 0 },
+                東部區域: { total: 0, climbed: 0 },
+                離島區域: { total: 0, climbed: 0 },
+            };
+
+            let totalMountains = data.length;
+            let totalClimbed = 0;
+
+            // 3. 遍歷 100 座山，統計總數與已攀登數量
+            data.forEach((mt) => {
+                if (regionStats[mt.Mt_region]) {
+                    regionStats[mt.Mt_region].total++; // 該區域總數 +1
+
+                    // 如果這座山的 ID 在已攀登清單中
+                    if (climbedIds.includes(mt.Mt_id)) {
+                        regionStats[mt.Mt_region].climbed++;
+                        totalClimbed++;
+                    }
+                }
+            });
+
+            // 4. 更新總進度圓環 (SVG)
+            const totalPct =
+                totalMountains === 0
+                    ? 0
+                    : Math.round((totalClimbed / totalMountains) * 100);
+            document.querySelector(".circle_pct").textContent = `${totalPct}%`;
+
+            // 計算 SVG 圓環的周長 (半徑 r=66, 周長 = 2 * pi * 66 ≒ 414.69)
+            const circumference = 2 * Math.PI * 66;
+            const dashValue = (totalPct / 100) * circumference; // 計算填滿的長度
+
+            // 選取第二個 circle (負責顯示進度條的)
+            const progressCircle = document.querySelectorAll(
+                ".circle_wrap svg circle",
+            )[1];
+            if (progressCircle) {
+                // 利用 stroke-dasharray 控制圓環長度，加上平滑轉場效果
+                progressCircle.style.transition =
+                    "stroke-dasharray 1s ease-in-out";
+                progressCircle.setAttribute(
+                    "stroke-dasharray",
+                    `${dashValue} ${circumference}`,
+                );
+            }
+
+            // 5. 更新下方五個區域的橫向進度條
+            const processBars = document.querySelectorAll(".process_bar");
+            processBars.forEach((bar) => {
+                const regionNameSpan = bar.querySelector(
+                    ".bar_header span:first-child",
+                );
+                const progressNumSpan = bar.querySelector(
+                    ".bar_header span:last-child",
+                );
+                const fillDiv = bar.querySelector(".bar_fill");
+
+                if (regionNameSpan && regionStats[regionNameSpan.textContent]) {
+                    const regionName = regionNameSpan.textContent;
+                    const stats = regionStats[regionName];
+
+                    // 更新文字 (例如: 5/35)
+                    progressNumSpan.textContent = `${stats.climbed}/${stats.total}`;
+
+                    // 計算該區域百分比並更新寬度
+                    const barPct =
+                        stats.total === 0
+                            ? 0
+                            : (stats.climbed / stats.total) * 100;
+                    fillDiv.style.width = `${barPct}%`;
+                    fillDiv.style.transition = "width 1s ease-in-out"; // 加上平滑動畫
+                }
+            });
+        })
+        .catch((error) => console.error("無法載入山脈資料以更新進度:", error));
+}
+
+// 網頁一載入時，先執行一次更新畫面
+document.addEventListener("DOMContentLoaded", function () {
+    updateDashboardProgress();
+});
+
+// ==========================================
+// 1. 讀取打勾紀錄與 JSON 總數、2. 計算包含 LEVEL MAX 的遊戲化等級
+// ==========================================
+function updateLevel() {
+    // 1. 讀取本機快取中已完成的山脈 ID 清單
+    const climbedIds =
+        JSON.parse(localStorage.getItem("climbedMountains")) || [];
+
+    fetch("mountains.json")
+        .then((response) => response.json())
+        .then((data) => {
+            let totalMountains = data.length; // 總山脈數（100座）
+            let totalClimbed = 0; // 已攀登總數
+
+            // 統計玩家總共勾選了幾座山
+            data.forEach((mt) => {
+                if (climbedIds.includes(mt.Mt_id)) {
+                    totalClimbed++;
+                }
+            });
+
+            // ====================================================
+            // 2. 計算包含 LEVEL MAX 的遊戲化等級邏輯
+            // ====================================================
+            let currentLevel = 1;
+            let totalExp = totalClimbed * 100; // 每爬 1 座山 = 100 EXP
+            let expNeededForNextLevel = currentLevel * 120; // 升級公式：當前等級 * 120
+
+            // 抓取網頁中的 HTML 元素
+            const levelBadge = document.querySelector(".level_badge");
+            const expLabel = document.querySelector(".exp_label");
+            const expFill = document.querySelector(".exp_fill");
+
+            // 判斷是否 100 座完美封頂
+            if (totalClimbed >= 100) {
+                // --- 100座全滿：觸發 LEVEL MAX 封頂狀態 ---
+                if (levelBadge) levelBadge.textContent = "LV. MAX";
+                if (expLabel) expLabel.textContent = "100 / 100 座全制霸！";
+
+                if (expFill) {
+                    expFill.style.transition = "width 1.5s ease-out";
+                    setTimeout(() => {
+                        expFill.style.width = "100%"; // 經驗條扣到底填滿
+                    }, 100);
+                }
+            } else {
+                // --- 未滿 100 座：執行逐級扣除計算 ---
+                while (totalExp >= expNeededForNextLevel) {
+                    totalExp -= expNeededForNextLevel; // 扣掉當前升級所需經驗
+                    currentLevel++; // 等級提升
+                    expNeededForNextLevel = currentLevel * 120; // 計算下一等新門檻
+                }
+
+                // 計算當前等級剩餘經驗值的百分比
+                const expPercentage = (totalExp / expNeededForNextLevel) * 100;
+
+                // 更新網頁 UI 文字與動畫
+                if (levelBadge) levelBadge.textContent = `LV. ${currentLevel}`;
+                if (expLabel)
+                    expLabel.textContent = `${totalExp} / ${expNeededForNextLevel}`;
+
+                if (expFill) {
+                    expFill.style.transition = "width 1.5s ease-out";
+                    setTimeout(() => {
+                        expFill.style.width = `${expPercentage}%`; // 經驗條長出動畫
+                    }, 100);
+                }
+            }
+        })
+        .catch((error) => console.error("資料讀取失敗:", error));
+}
+
+// ==========================================
+// 關鍵：確保在頁面初次載入完成時執行
+// ==========================================
+document.addEventListener("DOMContentLoaded", function () {
+    updateLevel(); // 網頁載入時立刻執行一次
+});
+
+// ===== 徽章系統 =====
 document.addEventListener("DOMContentLoaded", function () {
     const badgeList = document.querySelector(".badge_list");
     // 從 localStorage 取得已完成的山脈 ID 陣列
-    const climbedMountains = JSON.parse(localStorage.getItem("climbedMountains")) || [];
+    const climbedMountains =
+        JSON.parse(localStorage.getItem("climbedMountains")) || [];
 
     // 讀取山脈總表，用來比對區域數量
     fetch("mountains.json")
-        .then(response => response.json())
-        .then(mountainsData => {
+        .then((response) => response.json())
+        .then((mountainsData) => {
             renderBadges(climbedMountains, mountainsData);
-            updateProgress(climbedMountains, mountainsData); 
+            updateProgress(climbedMountains, mountainsData);
         })
-        .catch(error => console.error("無法載入山脈資料", error));
+        .catch((error) => console.error("無法載入山脈資料", error));
 
     // --- 1. 渲染徽章邏輯 ---
     function renderBadges(climbedIds, mountainsData) {
@@ -394,42 +571,52 @@ document.addEventListener("DOMContentLoaded", function () {
             badges.push({
                 name: "開始爬山了！",
                 img: `images/badges/first_mountain.png`, // 預期你未來上傳的圖檔路徑
-                fallbackIcon: "🥾" // 圖片缺失時的 Emoji 佔位符
+                fallbackIcon: "🥾", // 圖片缺失時的 Emoji 佔位符
             });
         }
 
         // 【數量徽章】每 10 座發一個，迴圈支援到 100 座
         for (let i = 10; i <= Math.min(totalClimbed, 100); i += 10) {
-            badges.push({
-                name: `${i}岳達成`,
-                img: `images/badges/10_mountain.png`, // 預期你未來上傳的圖檔路徑
-                fallbackIcon: "🏆" // 圖片缺失時的 Emoji 佔位符
-            });
+            if (i != 50 && i != 100) {
+                badges.push({
+                    name: `${i}岳達成`,
+                    img: `images/badges/10_mountain.png`, // 預期你未來上傳的圖檔路徑
+                    fallbackIcon: "🏆", // 圖片缺失時的 Emoji 佔位符
+                });
+            }
         }
 
         for (let i = 50; i <= Math.min(totalClimbed, 100); i += 50) {
             badges.push({
                 name: `${i}岳達成`,
-                img: `images/badges/50_mountain.png`, // 預期你未來上傳的圖檔路徑
-                fallbackIcon: "🏆" // 圖片缺失時的 Emoji 佔位符
+                img: `images/badges/50_mountain.png`,
+                fallbackIcon: "🏆", // 圖片缺失時的 Emoji 佔位符
             });
         }
         // 【區域徽章】判斷各區域是否全制霸
-        const regions = ["北部區域", "中部區域", "南部區域", "東部區域", "離島區域"];
-        regions.forEach(region => {
+        const regions = [
+            "北部區域",
+            "中部區域",
+            "南部區域",
+            "東部區域",
+            "離島區域",
+        ];
+        regions.forEach((region) => {
             // 抓出該區域所有的山脈 ID
             const regionMtIds = mountainsData
-                .filter(mt => mt.Mt_region === region)
-                .map(mt => mt.Mt_id);
-            
+                .filter((mt) => mt.Mt_region === region)
+                .map((mt) => mt.Mt_id);
+
             if (regionMtIds.length > 0) {
                 // 檢查該區域的 ID 是否「全部」都存在於使用者的紀錄中
-                const isCompleted = regionMtIds.every(id => climbedIds.includes(id));
+                const isCompleted = regionMtIds.every((id) =>
+                    climbedIds.includes(id),
+                );
                 if (isCompleted) {
                     badges.push({
                         name: `${region}全制霸`,
                         img: `images/badges/${region}.png`,
-                        fallbackIcon: "👑"
+                        fallbackIcon: "👑",
                     });
                 }
             }
@@ -437,11 +624,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 渲染到畫面
         if (badges.length === 0) {
-            badgeList.innerHTML = "<span style='font-size: 13px; color: #637864; margin-top: 5px;'>目前還沒有徽章，繼續努力爬山吧！</span>";
+            badgeList.innerHTML =
+                "<span style='font-size: 13px; color: #637864; margin-top: 5px;'>目前還沒有徽章，繼續努力爬山吧！</span>";
             return;
         }
 
-        badges.forEach(badge => {
+        badges.forEach((badge) => {
             const badgeItem = document.createElement("div");
             badgeItem.className = "badge_item";
             badgeItem.setAttribute("data-tooltip", badge.name);
@@ -456,16 +644,16 @@ document.addEventListener("DOMContentLoaded", function () {
             img.src = badge.img;
             img.onload = () => {
                 // 圖片存在，把 Emoji 清掉並換上背景圖
-                badgeIcon.innerHTML = ""; 
+                badgeIcon.innerHTML = "";
                 badgeIcon.style.backgroundImage = `url('${badge.img}')`;
                 badgeIcon.style.backgroundPosition = "center";
-                
+
                 if (badge.name.includes("開始")) {
                     badgeIcon.style.backgroundSize = "cover"; // 數量徽章縮小不裁切
-                    } else {
-                        badgeIcon.style.backgroundSize = "80%"; // 其他區域徽章維持填滿
+                } else {
+                    badgeIcon.style.backgroundSize = "80%"; // 其他區域徽章維持填滿
                 }
-                
+
                 badgeIcon.style.backgroundRepeat = "no-repeat";
             };
             img.onerror = () => {
@@ -477,7 +665,4 @@ document.addEventListener("DOMContentLoaded", function () {
             badgeList.appendChild(badgeItem);
         });
     }
-
-  
-
 });
