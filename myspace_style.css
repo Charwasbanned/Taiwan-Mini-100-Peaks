@@ -164,7 +164,7 @@
 }
 
 .badge_icon {
-    width: clamp(38px, 4vw, 56px);
+    width: clamp(40px, 4vw, 70px);
     aspect-ratio: 1/1;
     border-radius: 50%;
     display: flex;
