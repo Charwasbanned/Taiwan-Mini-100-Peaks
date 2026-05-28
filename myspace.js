@@ -167,6 +167,8 @@ document.addEventListener("DOMContentLoaded", function () {
         diaryModal.style.display = "none";
         clearModal();
         renderDiaries();
+        // 刷新讓其他版面也一起更新
+        window.location.reload();
     });
 
     // 清空新增欄位
@@ -424,10 +426,13 @@ function updateDashboardProgress() {
                 // 利用 stroke-dasharray 控制圓環長度，加上平滑轉場效果
                 progressCircle.style.transition =
                     "stroke-dasharray 1s ease-in-out";
-                progressCircle.setAttribute(
-                    "stroke-dasharray",
-                    `${dashValue} ${circumference}`,
-                );
+                // 延遲一下確保進度條從0跑
+                setTimeout(() => {
+                    progressCircle.setAttribute(
+                        "stroke-dasharray",
+                        `${dashValue} ${circumference}`,
+                    );
+                }, 50);
             }
 
             // 5. 更新下方五個區域的橫向進度條
@@ -577,22 +582,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 【數量徽章】每 10 座發一個，迴圈支援到 100 座
         for (let i = 10; i <= Math.min(totalClimbed, 100); i += 10) {
+            //50 & 100 外
             if (i != 50 && i != 100) {
                 badges.push({
                     name: `${i}岳達成`,
-                    img: `images/badges/10_mountain.png`, // 預期你未來上傳的圖檔路徑
+                    img: `images/badges/10_mountain.png`,
+                    fallbackIcon: "🏆", // 圖片缺失時的 Emoji 佔位符
+                });
+            }
+            //50座
+            if (i == 50) {
+                badges.push({
+                    name: `${i}岳達成`,
+                    img: `images/badges/50_mountain.png`,
+                    fallbackIcon: "🏆", // 圖片缺失時的 Emoji 佔位符
+                });
+            }
+            //100座
+            if (i == 100) {
+                badges.push({
+                    name: `${i}岳達成`,
+                    img: `images/badges/100_mountain.png`,
                     fallbackIcon: "🏆", // 圖片缺失時的 Emoji 佔位符
                 });
             }
         }
 
-        for (let i = 50; i <= Math.min(totalClimbed, 100); i += 50) {
-            badges.push({
-                name: `${i}岳達成`,
-                img: `images/badges/50_mountain.png`,
-                fallbackIcon: "🏆", // 圖片缺失時的 Emoji 佔位符
-            });
-        }
         // 【區域徽章】判斷各區域是否全制霸
         const regions = [
             "北部區域",
