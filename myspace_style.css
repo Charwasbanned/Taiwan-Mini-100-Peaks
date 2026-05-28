@@ -302,7 +302,7 @@
 }
 
 .note_title {
-    width: 95%;
+    flex: 1;
     padding: 8px 10px;
     text-align: left;
     font-size: clamp(18px, 2vw, 28px);
@@ -312,6 +312,37 @@
     border-left: 4px solid rgb(81, 124, 82);
     transition: all 0.3s ease;
     flex-shrink: 0;
+}
+
+.note_header {
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.data_actions {
+    display: flex;
+    gap: 8px;
+}
+
+.data_btn {
+    background-color: transparent;
+    border: 2px solid #a3bda4;
+    color: #637864;
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.data_btn:hover {
+    background-color: #637864;
+    color: #f3f5e4;
+    border-color: #637864;
 }
 
 .note_list {

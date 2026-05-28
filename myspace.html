@@ -152,7 +152,31 @@
 
             <!-- 右邊區域 -->
             <div class="right_container">
-                <div class="note_title">我的日記</div>
+                <div class="note_header">
+                    <div class="note_title">我的日記</div>
+                    <div class="data_actions">
+                        <button
+                            id="importBtn"
+                            class="data_btn"
+                            title="匯入紀錄檔案"
+                        >
+                            匯入
+                        </button>
+                        <button
+                            id="exportBtn"
+                            class="data_btn"
+                            title="將目前的紀錄匯出"
+                        >
+                            匯出
+                        </button>
+                        <input
+                            type="file"
+                            id="importInput"
+                            accept=".json"
+                            style="display: none"
+                        />
+                    </div>
+                </div>
                 <button class="note_add_btn">＋ 新增日記</button>
 
                 <div class="note_list"></div>
