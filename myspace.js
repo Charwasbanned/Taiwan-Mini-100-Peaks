@@ -367,3 +367,117 @@ document.addEventListener("DOMContentLoaded", function () {
         reader.readAsText(file);
     });
 });
+
+
+// ===== 徽章系統與進度計算邏輯 =====
+document.addEventListener("DOMContentLoaded", function () {
+    const badgeList = document.querySelector(".badge_list");
+    // 從 localStorage 取得已完成的山脈 ID 陣列
+    const climbedMountains = JSON.parse(localStorage.getItem("climbedMountains")) || [];
+
+    // 讀取山脈總表，用來比對區域數量
+    fetch("mountains.json")
+        .then(response => response.json())
+        .then(mountainsData => {
+            renderBadges(climbedMountains, mountainsData);
+            updateProgress(climbedMountains, mountainsData); 
+        })
+        .catch(error => console.error("無法載入山脈資料", error));
+
+    // --- 1. 渲染徽章邏輯 ---
+    function renderBadges(climbedIds, mountainsData) {
+        badgeList.innerHTML = ""; // 清空 HTML 預設的假徽章
+        const totalClimbed = climbedIds.length;
+        const badges = [];
+
+        if (totalClimbed !== 0) {
+            badges.push({
+                name: "開始爬山了！",
+                img: `images/badges/first_mountain.png`, // 預期你未來上傳的圖檔路徑
+                fallbackIcon: "🥾" // 圖片缺失時的 Emoji 佔位符
+            });
+        }
+
+        // 【數量徽章】每 10 座發一個，迴圈支援到 100 座
+        for (let i = 10; i <= Math.min(totalClimbed, 100); i += 10) {
+            badges.push({
+                name: `${i}岳達成`,
+                img: `images/badges/10_mountain.png`, // 預期你未來上傳的圖檔路徑
+                fallbackIcon: "🏆" // 圖片缺失時的 Emoji 佔位符
+            });
+        }
+
+        for (let i = 50; i <= Math.min(totalClimbed, 100); i += 50) {
+            badges.push({
+                name: `${i}岳達成`,
+                img: `images/badges/50_mountain.png`, // 預期你未來上傳的圖檔路徑
+                fallbackIcon: "🏆" // 圖片缺失時的 Emoji 佔位符
+            });
+        }
+        // 【區域徽章】判斷各區域是否全制霸
+        const regions = ["北部區域", "中部區域", "南部區域", "東部區域", "離島區域"];
+        regions.forEach(region => {
+            // 抓出該區域所有的山脈 ID
+            const regionMtIds = mountainsData
+                .filter(mt => mt.Mt_region === region)
+                .map(mt => mt.Mt_id);
+            
+            if (regionMtIds.length > 0) {
+                // 檢查該區域的 ID 是否「全部」都存在於使用者的紀錄中
+                const isCompleted = regionMtIds.every(id => climbedIds.includes(id));
+                if (isCompleted) {
+                    badges.push({
+                        name: `${region}全制霸`,
+                        img: `images/badges/${region}.png`,
+                        fallbackIcon: "👑"
+                    });
+                }
+            }
+        });
+
+        // 渲染到畫面
+        if (badges.length === 0) {
+            badgeList.innerHTML = "<span style='font-size: 13px; color: #637864; margin-top: 5px;'>目前還沒有徽章，繼續努力爬山吧！</span>";
+            return;
+        }
+
+        badges.forEach(badge => {
+            const badgeItem = document.createElement("div");
+            badgeItem.className = "badge_item";
+            badgeItem.setAttribute("data-tooltip", badge.name);
+
+            const badgeIcon = document.createElement("div");
+            badgeIcon.className = "badge_icon";
+            // 預設先放 Emoji 佔位符
+            badgeIcon.innerHTML = `<span style="font-size: 24px;">${badge.fallbackIcon}</span>`;
+
+            // 嘗試載入徽章圖片
+            const img = new Image();
+            img.src = badge.img;
+            img.onload = () => {
+                // 圖片存在，把 Emoji 清掉並換上背景圖
+                badgeIcon.innerHTML = ""; 
+                badgeIcon.style.backgroundImage = `url('${badge.img}')`;
+                badgeIcon.style.backgroundPosition = "center";
+                
+                if (badge.name.includes("開始")) {
+                    badgeIcon.style.backgroundSize = "cover"; // 數量徽章縮小不裁切
+                    } else {
+                        badgeIcon.style.backgroundSize = "80%"; // 其他區域徽章維持填滿
+                }
+                
+                badgeIcon.style.backgroundRepeat = "no-repeat";
+            };
+            img.onerror = () => {
+                // 圖片不存在，保留 Emoji 並給個預設底色
+                badgeIcon.style.backgroundColor = "#d8edcc";
+            };
+
+            badgeItem.appendChild(badgeIcon);
+            badgeList.appendChild(badgeItem);
+        });
+    }
+
+  
+
+});
