@@ -1,3 +1,6 @@
+// 1. 在最外層宣告全域變數，用來儲存所有的山脈資料，這樣搜尋功能才抓得到數據
+let allMountains = [];
+
 document.addEventListener("DOMContentLoaded", function () {
     // 讀取mountains.json
     fetch("mountains.json")
@@ -8,6 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
             return response.json();
         })
         .then((mountainsData) => {
+            // 將非同步抓到的資料賦值給全域變數
+            allMountains = mountainsData;
+
             // 跑迴圈把每座山塞到對應的區域
             mountainsData.forEach((mountain) => {
                 // 根據山脈的區域，找到對應的 <ul> 容器
@@ -31,16 +37,50 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
         })
-
         .catch((error) => {
             console.error("Error:", error);
             alert("載入山脈資料失敗");
         });
+
+    
+    const searchInput = document.getElementById("search");
+    if (searchInput) {
+        searchInput.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                checkSearch();
+            }
+        });
+    }
 });
 
-// 區域按鈕點擊後，滑動到對應區塊
+// ===== 搜尋跳轉功能 =====
+function checkSearch() {
+    const searchInput = document.getElementById("search");
+    if (!searchInput) return;
 
-// 取得按鈕
+    // 取得使用者輸入的值，並利用 trim() 去除前後空白
+    const keyword = searchInput.value.trim();
+
+    if (keyword === "") {
+        alert("請輸入想搜尋的山脈名稱！");
+        return;
+    }
+
+  
+    const matchedMountain = allMountains.find((mountain) =>
+        mountain.Mt_name.includes(keyword)
+    );
+
+    if (matchedMountain) {
+    
+        window.location.href = `mt_card.html?id=${matchedMountain.Mt_id}`;
+    } else {
+      
+        alert(`找不到與「${keyword}」相關的山脈，請重新輸入！`);
+    }
+}
+
+// ===== 導覽列滾動 =====
 const mainBtn = document.getElementById("mainBtn");
 const mySpaceBtn = document.getElementById("mySpaceBtn");
 const northBtn = document.getElementById("northBtn");
@@ -49,55 +89,46 @@ const southBtn = document.getElementById("southBtn");
 const eastBtn = document.getElementById("eastBtn");
 const islandBtn = document.getElementById("islandBtn");
 
-// 取得對應區域
-const mainSection = document.getElementById("mainSection");
 const northSection = document.getElementById("northSection");
 const centerSection = document.getElementById("centerSection");
 const southSection = document.getElementById("southSection");
 const eastSection = document.getElementById("eastSection");
 const islandSection = document.getElementById("islandSection");
 
-mainBtn.addEventListener("click", () => {
-    window.location.href = "index.html";
-})
-
-mySpaceBtn.addEventListener("click", () => {
-    window.location.href = "myspace.html";
-})
-
-// 北部區域
-northBtn.addEventListener("click", () => {
-    northSection.scrollIntoView({
-        behavior: "smooth"
+if (mainBtn) {
+    mainBtn.addEventListener("click", () => {
+        window.location.href = "index.html";
     });
-});
+}
 
-// 中部區域
-centerBtn.addEventListener("click", () => {
-    centerSection.scrollIntoView({
-        behavior: "smooth"
+if (mySpaceBtn) {
+    mySpaceBtn.addEventListener("click", () => {
+        window.location.href = "myspace.html";
     });
-});
+}
 
-// 南部區域
-southBtn.addEventListener("click", () => {
-    southSection.scrollIntoView({
-        behavior: "smooth"
+if (northBtn && northSection) {
+    northBtn.addEventListener("click", () => {
+        northSection.scrollIntoView({ behavior: "smooth" });
     });
-});
-
-// 東部區域
-eastBtn.addEventListener("click", () => {
-    eastSection.scrollIntoView({
-        behavior: "smooth"
+}
+if (centerBtn && centerSection) {
+    centerBtn.addEventListener("click", () => {
+        centerSection.scrollIntoView({ behavior: "smooth" });
     });
-});
-
-// 離島區域
-islandBtn.addEventListener("click", () => {
-    islandSection.scrollIntoView({
-        behavior: "smooth"
+}
+if (southBtn && southSection) {
+    southBtn.addEventListener("click", () => {
+        southSection.scrollIntoView({ behavior: "smooth" });
     });
-});
-
-//TODO: checkSearch
+}
+if (eastBtn && eastSection) {
+    eastBtn.addEventListener("click", () => {
+        eastSection.scrollIntoView({ behavior: "smooth" });
+    });
+}
+if (islandBtn && islandSection) {
+    islandBtn.addEventListener("click", () => {
+        islandSection.scrollIntoView({ behavior: "smooth" });
+    });
+}
