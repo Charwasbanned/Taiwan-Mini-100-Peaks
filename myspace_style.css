@@ -47,7 +47,9 @@
     overflow: hidden;
     background-color: #f3f5e4;
     flex-shrink: 0;
-    transition: opacity 0.3s ease, transform 0.2s ease;
+    transition:
+        opacity 0.3s ease,
+        transform 0.2s ease;
 }
 
 .avatar_circle img {
@@ -172,7 +174,6 @@
     align-items: center;
     font-size: clamp(16px, 1.8vw, 24px);
     transition: transform 0.2s;
-    background-color: #a3ff05;
     z-index: 8888;
 }
 .badge_icon:hover {
