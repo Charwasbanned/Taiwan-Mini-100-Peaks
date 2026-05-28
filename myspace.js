@@ -331,41 +331,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // --- 2. 更新進度條與圓環邏輯 (連動真實資料) ---
-    function updateProgress(climbedIds, mountainsData) {
-        const totalClimbed = climbedIds.length;
-        const totalMountains = mountainsData.length;
+  
 
-        // 更新左側總進度圓餅圖
-        const circlePct = document.querySelector(".circle_pct");
-        const circlePath = document.querySelector(".circle_wrap circle:nth-child(2)");
-        if (circlePct && circlePath && totalMountains > 0) {
-            const percentage = Math.round((totalClimbed / totalMountains) * 100);
-            circlePct.textContent = `${percentage}%`;
-            
-            // SVG 圓的周長公式: 2 * π * r (半徑66) ≈ 414.7
-            const dashArray = (percentage / 100) * 414.7;
-            circlePath.setAttribute("stroke-dasharray", `${dashArray} 414.7`);
-        }
-
-        // 更新右側各區域進度條
-        const regions = ["北部區域", "中部區域", "南部區域", "東部區域", "離島區域"];
-        const processBars = document.querySelectorAll(".process_bar");
-
-        regions.forEach((region, index) => {
-            const regionMts = mountainsData.filter(mt => mt.Mt_region === region);
-            const regionTotal = regionMts.length;
-            const regionClimbed = regionMts.filter(mt => climbedIds.includes(mt.Mt_id)).length;
-
-            if (processBars[index]) {
-                const headerSpan = processBars[index].querySelectorAll(".bar_header span")[1];
-                const fillBar = processBars[index].querySelector(".bar_fill");
-
-                // 更新文字與寬度
-                headerSpan.textContent = `${regionClimbed}/${regionTotal}`;
-                const pct = regionTotal === 0 ? 0 : (regionClimbed / regionTotal) * 100;
-                fillBar.style.width = `${pct}%`;
-            }
-        });
-    }
 });
