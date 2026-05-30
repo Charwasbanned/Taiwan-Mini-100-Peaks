@@ -592,7 +592,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((response) => response.json())
         .then((mountainsData) => {
             renderBadges(climbedMountains, mountainsData);
-            updateProgress(climbedMountains, mountainsData);
         })
         .catch((error) => console.error("無法載入山脈資料", error));
 
