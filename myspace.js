@@ -256,6 +256,29 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+// 讓內頁導覽列的區域按鈕，點擊後跳回首頁並滑動到對應區域
+document.addEventListener("DOMContentLoaded", function () {
+    const regionButtons = [
+        { btnId: "northBtn", sectionId: "northSection" },
+        { btnId: "centerBtn", sectionId: "centerSection" },
+        { btnId: "southBtn", sectionId: "southSection" },
+        { btnId: "eastBtn", sectionId: "eastSection" },
+        { btnId: "islandBtn", sectionId: "islandSection" }
+    ];
+
+    regionButtons.forEach(item => {
+        const btn = document.getElementById(item.btnId);
+        if (btn) {
+            btn.addEventListener("click", () => {
+                let currentPath = window.location.pathname;
+                let basePath = currentPath.substring(0, currentPath.lastIndexOf("/"));
+                // 跳轉到 index.html 並加上錨點 (#區塊ID)
+                window.location.href = window.location.origin + basePath + "/index.html#" + item.sectionId;
+            });
+        }
+    });
+});
+
 // --- 資料匯出/匯入功能 ---
 document.addEventListener("DOMContentLoaded", function () {
     const exportBtn = document.getElementById("exportBtn");

@@ -165,4 +165,3 @@ islandBtn.addEventListener("click", () => {
     });
 });
 
-//TODO: checkSearch
