@@ -256,6 +256,36 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+// 讓內頁導覽列的區域按鈕，點擊後跳回首頁並滑動到對應區域
+document.addEventListener("DOMContentLoaded", function () {
+    const regionButtons = [
+        { btnId: "northBtn", sectionId: "northSection" },
+        { btnId: "centerBtn", sectionId: "centerSection" },
+        { btnId: "southBtn", sectionId: "southSection" },
+        { btnId: "eastBtn", sectionId: "eastSection" },
+        { btnId: "islandBtn", sectionId: "islandSection" },
+    ];
+
+    regionButtons.forEach((item) => {
+        const btn = document.getElementById(item.btnId);
+        if (btn) {
+            btn.addEventListener("click", () => {
+                let currentPath = window.location.pathname;
+                let basePath = currentPath.substring(
+                    0,
+                    currentPath.lastIndexOf("/"),
+                );
+                // 跳轉到 index.html 並加上錨點 (#區塊ID)
+                window.location.href =
+                    window.location.origin +
+                    basePath +
+                    "/index.html#" +
+                    item.sectionId;
+            });
+        }
+    });
+});
+
 // --- 資料匯出/匯入功能 ---
 document.addEventListener("DOMContentLoaded", function () {
     const exportBtn = document.getElementById("exportBtn");
@@ -562,7 +592,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((response) => response.json())
         .then((mountainsData) => {
             renderBadges(climbedMountains, mountainsData);
-            updateProgress(climbedMountains, mountainsData);
         })
         .catch((error) => console.error("無法載入山脈資料", error));
 
@@ -680,4 +709,76 @@ document.addEventListener("DOMContentLoaded", function () {
             badgeList.appendChild(badgeItem);
         });
     }
+});
+
+// ==========================================
+// 點擊進度條展開區域山脈清單功能
+// ==========================================
+document.addEventListener("DOMContentLoaded", function () {
+    const processBars = document.querySelectorAll(".process_bar");
+    const regionModal = document.getElementById("regionModal");
+    const closeRegionModalBtn = document.getElementById("closeRegionModalBtn");
+    const regionModalTitle = document.getElementById("regionModalTitle");
+    const regionMountainList = document.getElementById("regionMountainList");
+
+    // 關閉彈窗事件
+    closeRegionModalBtn.addEventListener("click", () => {
+        regionModal.style.display = "none";
+    });
+
+    // 點擊彈窗外部關閉
+    regionModal.addEventListener("click", (e) => {
+        if (e.target === regionModal) {
+            regionModal.style.display = "none";
+        }
+    });
+
+    // 綁定每一個進度條的點擊事件
+    processBars.forEach((bar) => {
+        bar.addEventListener("click", () => {
+            // 從進度條的 HTML 中抓取區域名稱 (例如：北部區域)
+            const regionName = bar.querySelector(
+                ".bar_header span:first-child",
+            ).textContent;
+            regionModalTitle.textContent = `${regionName} - 進度清單`;
+
+            // 取得已爬過的山脈 ID
+            const climbedIds =
+                JSON.parse(localStorage.getItem("climbedMountains")) || [];
+
+            // 讀取 JSON 並篩選出該區域的山脈
+            fetch("mountains.json")
+                .then((response) => response.json())
+                .then((data) => {
+                    // 過濾出屬於被點擊區域的山脈
+                    const regionMountains = data.filter(
+                        (mt) => mt.Mt_region === regionName,
+                    );
+
+                    // 清空原本清單
+                    regionMountainList.innerHTML = "";
+
+                    // 動態產生按鈕
+                    regionMountains.forEach((mt) => {
+                        // 判斷是否爬過
+                        const isClimbed = climbedIds.includes(mt.Mt_id);
+
+                        // 建立 a 標籤 (超連結)
+                        const a = document.createElement("a");
+                        a.href = `mt_card.html?id=${mt.Mt_id}`;
+                        a.textContent = mt.Mt_name;
+                        // 根據狀態賦予不同的 class (climbed = 綠色, unclimbed = 灰色)
+                        a.className = `region-mt-btn ${isClimbed ? "climbed" : "unclimbed"}`;
+
+                        regionMountainList.appendChild(a);
+                    });
+
+                    // 顯示彈窗
+                    regionModal.style.display = "flex";
+                })
+                .catch((error) =>
+                    console.error("無法載入區域山脈資料:", error),
+                );
+        });
+    });
 });

@@ -21,15 +21,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (targetMenu) {
                     const li = document.createElement("li");
                     li.className = "mountain";
+                    li.textContent = mountain.Mt_name
 
-                    //山脈按鈕超連結
-                    const link = document.createElement("a");
-                    link.href = `mt_card.html?id=${mountain.Mt_id}`;
-                    link.textContent = mountain.Mt_name;
-                    link.style.textDecoration = "none";
-                    link.style.color = "inherit";
-
-                    li.appendChild(link);
+                    //山脈按鈕
+                    li.addEventListener("click", () => {
+                        window.location.href = `mt_card.html?id=${mountain.Mt_id}`;
+                    });
                     targetMenu.appendChild(li);
                 }
             });
@@ -124,45 +121,43 @@ const islandSection = document.getElementById("islandSection");
 
 mainBtn.addEventListener("click", () => {
     window.location.href = "index.html";
-})
+});
 
 mySpaceBtn.addEventListener("click", () => {
     window.location.href = "myspace.html";
-})
+});
 
 // 北部區域
 northBtn.addEventListener("click", () => {
     northSection.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
     });
 });
 
 // 中部區域
 centerBtn.addEventListener("click", () => {
     centerSection.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
     });
 });
 
 // 南部區域
 southBtn.addEventListener("click", () => {
     southSection.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
     });
 });
 
 // 東部區域
 eastBtn.addEventListener("click", () => {
     eastSection.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
     });
 });
 
 // 離島區域
 islandBtn.addEventListener("click", () => {
     islandSection.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
     });
 });
-
-//TODO: checkSearch

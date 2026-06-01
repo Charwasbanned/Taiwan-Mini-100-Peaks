@@ -266,6 +266,17 @@
 
 .process_bar {
     width: 100%;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.process_bar:hover {
+    transform: scale(1.02);
+    background-color: rgba(163, 196, 164, 0.15);
 }
 
 .bar_header {
@@ -413,6 +424,7 @@
     line-height: 1.5;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     word-break: break-all;
@@ -529,5 +541,64 @@
     }
     .achivement_area {
         height: 25%;
+    }
+}
+
+/* 區域彈窗內的山脈清單容器 */
+.region_mt_list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    max-height: 50vh; /* 限制高度，太多山時可以滾動 */
+    overflow-y: auto;
+    padding: 5px;
+    scrollbar-width: thin;
+}
+
+/* 彈窗內的單一山脈按鈕 (仿照首頁的樣式) */
+.region-mt-btn {
+    border-radius: 40px;
+    padding: 10px;
+    width: calc(33.333% - 8px); /* 一排顯示三個 */
+    text-align: center;
+    font-size: 18px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    box-sizing: border-box;
+}
+
+.region-mt-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* 已爬過 (綠色) */
+.region-mt-btn.climbed {
+    background-color: #2d5e2f;
+    color: #f3f5e4;
+}
+.region-mt-btn.climbed:hover {
+    background-color: #1e4020;
+}
+
+/* 未爬過 (灰色) */
+.region-mt-btn.unclimbed {
+    background-color: #d0d8ca;
+    color: #6a7b69;
+}
+.region-mt-btn.unclimbed:hover {
+    background-color: #b4d9b9;
+    color: #2d5e2f;
+}
+
+/* 手機版響應式：一排改為顯示兩個 */
+@media (max-width: 768px) {
+    .region-mt-btn {
+        width: calc(50% - 6px);
+        font-size: 15px;
     }
 }
